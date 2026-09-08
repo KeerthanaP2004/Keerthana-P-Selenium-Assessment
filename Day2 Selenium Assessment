@@ -1,0 +1,133 @@
+//Task_1 FacebookApplication_TC3
+package Assessment;
+
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class FacebookApplication_TC3 {
+	public static void main(String[] args) throws InterruptedException 
+	{
+        WebDriver driver = new EdgeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        
+        driver.get("https://www.facebook.com/");
+        driver.findElement(By.linkText("Create new account")).click();
+        Thread.sleep(3000);
+
+        WebElement firstname = driver.findElement(By.id("_R_1cl2p4jikacppb6amH1_"));
+        WebElement surname = driver.findElement(By.id("_R_1kl2p4jikacppb6amH1_"));
+
+        int firstNameY = firstname.getLocation().getY();
+        int surnameY = surname.getLocation().getY();
+
+        if (firstNameY == surnameY) {
+            System.out.println("Firstname and Surname are aligned in the same line");
+        } else {
+            System.out.println("Firstname and Surname are NOT aligned in the same line");
+        }
+        driver.quit();
+	}
+}
+
+//Task_2 FacebookApplication_TC4
+package Assessment;
+
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class FacebookApplication_TC4 {
+    public static void main(String[] args) throws InterruptedException {
+        WebDriver driver = new EdgeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+        driver.get("https://www.facebook.com/");
+   
+        WebElement create = driver.findElement(By.linkText("Create new account"));
+        System.out.println("Create Account Location: " + create.getLocation());
+        create.click();
+        Thread.sleep(3000);
+
+        WebElement email = driver.findElement(By.id("_R_6ad8p4jikacppb6amH1_"));
+        System.out.println("Placeholder: " + email.getDomAttribute("placeholder"));
+        System.out.println("Value Before: " + email.getDomProperty("value"));
+        email.sendKeys("Keertu@gmail.com");
+        System.out.println("Value After: " + email.getDomProperty("value"));
+
+        WebElement submit = driver.findElement(By.xpath("//span[text()='Submit']"));
+        System.out.println("Button Size: " + submit.getSize());
+
+        System.out.println("Background Color: " + submit.getCssValue("background-color"));
+        System.out.println("Font Size: " + submit.getCssValue("font-size"));
+        System.out.println("Font Family: " + submit.getCssValue("font-family"));
+
+        driver.quit();
+    }
+}
+
+//Task_3 DemoWebShop_TC5
+package Assessment;
+
+import java.io.File;
+import java.io.IOException;
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.io.FileHandler;
+
+public class DemoWebShop_TC5 {
+    public static void main(String[] args) throws InterruptedException, IOException {
+        WebDriver driver = new EdgeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+     
+        driver.get("https://demowebshop.tricentis.com/");
+      
+        WebElement laptop = driver.findElement(By.xpath("//a[text()='14.1-inch Laptop']"));
+        WebElement addCart = driver.findElement(By.xpath("//a[text()='14.1-inch Laptop']/ancestor::div[contains(@class,'product-item')]//input[@value='Add to cart']"));
+        System.out.println("Add to Cart Button Size: " + addCart.getSize());
+        addCart.click();
+        
+        WebElement laptopImage = driver.findElement(By.xpath("//a[text()='14.1-inch Laptop']/ancestor::div[contains(@class,'product-item')]//div[@class='picture']//img"));
+        File src = laptopImage.getScreenshotAs(OutputType.FILE);
+        File dest = new File("./Screenshot/laptop.png");
+        FileHandler.copy(src, dest);
+        System.out.println("Laptop image screenshot saved");
+        Thread.sleep(5000);
+  
+        driver.findElement(By.className("cart-label")).click();
+       
+        WebElement remove = driver.findElement(By.name("removefromcart"));
+        System.out.println("Remove checkbox selected: " + remove.isSelected());
+        System.out.println("X: " + remove.getRect().getX());
+        System.out.println("Y: " + remove.getRect().getY());
+        System.out.println("Width: " + remove.getRect().getWidth());
+        System.out.println("Height: " + remove.getRect().getHeight());
+        
+        System.out.println("Alert before Apply Coupon: "+ isAlertDisplayed(driver));
+        WebElement coupon = driver.findElement(By.name("applydiscountcouponcode"));
+        coupon.click();
+        Thread.sleep(1000);
+        System.out.println("Alert after Apply Coupon: "+ isAlertDisplayed(driver));
+        
+        driver.quit();
+    }
+    public static boolean isAlertDisplayed(WebDriver driver) {
+        try {
+            driver.switchTo().alert();
+            return true;
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}
