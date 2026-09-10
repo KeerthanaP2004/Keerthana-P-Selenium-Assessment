@@ -1,0 +1,152 @@
+//TASK1 EaseMyTrip_T6
+package Assessment;
+
+import java.time.Duration;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+
+public class EaseMyTrip_TC6 {	
+	public static void main(String[] args) throws InterruptedException 
+	{
+		//1.create object for browser specific options
+		ChromeOptions option=new ChromeOptions();
+
+		//2.call addArguments() using ref variable(option) and pass corect command
+		option.addArguments("--disable-notifications");	
+		//pass the option ref variable while launching the browser as an argument
+		WebDriver driver=new ChromeDriver(option);
+		//Maximize the browser
+		driver.manage().window().maximize();
+		//Apply implicit wait
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		//naviagate to easemytrip application
+		driver.get("https://easemytrip.com/");
+		Thread.sleep(2000);
+		System.out.println("EaseMyTrip opened and notification popup handled");
+		
+		//select one way
+		driver.findElement(By.xpath("//li[@id='oway']")).click();
+		Thread.sleep(2000);
+		System.out.println("One Way selected");
+		
+		//FROM field
+		driver.findElement(By.xpath("//input[@id='FromSector_show']")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//input[@id='a_FromSector_show']")).sendKeys("Bangalore");
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//span[@id='spnBengaluru']")).click();
+		Thread.sleep(2000);
+		System.out.println("From location Bangalore selected");
+		
+		//TO field
+		driver.findElement(By.xpath("//input[@id='a_Editbox13_show']")).sendKeys("Mumbai");
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//p[@id='airportMumbai']")).click();
+		Thread.sleep(2000);
+		System.out.println("To location Mumbai selected");
+		
+		//Select future departure date
+		driver.findElement(By.xpath("//img[@id='img2Nex']")).click();
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//img[@id='img2Nex']")).click();
+		Thread.sleep(1000);
+		driver.findElement(By.xpath("//li[@id='snd_4_10/12/2026']")).click();
+		Thread.sleep(2000);
+		System.out.println("Future departure date selected");
+		
+		//Click Traveller & Class
+		driver.findElement(By.xpath("//div[@id='myFunction4']")).click();
+		Thread.sleep(2000);
+		System.out.println("Traveller & Class opened");
+		
+		//Select 2 Adults and Economy class
+		driver.findElement(By.xpath("//button[@id='add']")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//input[@id='rbEconomy']")).click();
+		Thread.sleep(2000);
+		driver.findElement(By.xpath("//a[@id='traveLer']")).click();
+		Thread.sleep(2000);
+		System.out.println("2 Adults selected and Economy class selected");
+		
+		//Click Search
+		driver.findElement(By.xpath("//input[@value='Search']")).click();
+		Thread.sleep(2000);
+		System.out.println("Search button clicked");
+		
+		//Verify flight results page
+		String title=driver.getTitle();
+		if(title.contains("EaseMyTrip.com Lowest Airfare, Flight Tickets, Cheap Air Tickets – EaseMyTrip.com"))
+		{
+			System.out.println("Flight results page is displayed");
+			System.out.println("TEST CASE PASSED");
+		}
+		else
+		{
+			System.out.println("Flight results page is not displayed");
+			System.out.println("TEST CASE FAILED");
+		}
+		Thread.sleep(2000);
+		
+		//close the browser
+		driver.quit();
+	}
+}
+
+//TASK2 DemoApp_TC7
+package Assessment;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+
+public class DemoApp_TC7 {
+    public static void main(String[] args) throws InterruptedException {
+        WebDriver driver = new EdgeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+
+        // 1. Navigate to Date Picker
+        driver.get("https://demoapps.qspiders.com/ui/datePick?sublist=0");
+        System.out.println("Date Picker page opened");
+        Thread.sleep(2000);
+
+        // 2. Click on calendar
+        WebElement dateField = driver.findElement(By.xpath("//input[@placeholder='Select A Date']"));
+        dateField.click();
+        System.out.println("Calendar clicked");
+        Thread.sleep(2000);
+
+        // 3. Navigate to next month
+        WebElement nextMonth = driver.findElement(By.xpath("//button[contains(@aria-label,'Next Month')]"));
+        nextMonth.click();
+        System.out.println("Next month selected");
+        Thread.sleep(2000);
+
+        // Verify month
+        WebElement month = driver.findElement(By.className("react-datepicker__current-month"));
+        System.out.println("Month displayed: " + month.getText());
+
+        // 4. Select valid date - October 10, 2026
+        WebElement date = driver.findElement(By.xpath("//div[@class='react-datepicker__day react-datepicker__day--010 react-datepicker__day--keyboard-selected react-datepicker__day--weekend']"));
+        date.click();
+        System.out.println("Date 10 selected");
+        Thread.sleep(2000);
+
+        // 5. Verify selected date
+        String selectedDate = dateField.getAttribute("value");
+        System.out.println("Date displayed in field: " + selectedDate);
+        if (selectedDate != null && !selectedDate.isEmpty()) {
+            System.out.println("Selected date displayed correctly");
+        } else {
+            System.out.println("Selected date is not displayed");
+        }
+        Thread.sleep(3000);
+
+        driver.quit();
+    }
+}
