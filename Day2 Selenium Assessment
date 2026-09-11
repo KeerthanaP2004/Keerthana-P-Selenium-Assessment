@@ -1,4 +1,4 @@
-//Task_1 FacebookApplication_TC3
+//TASK_1 FacebookApplication_TC3
 package Assessment;
 
 import java.time.Duration;
@@ -33,7 +33,7 @@ public class FacebookApplication_TC3 {
 	}
 }
 
-//Task_2 FacebookApplication_TC4
+//TASK_2 FacebookApplication_TC4
 package Assessment;
 
 import java.time.Duration;
@@ -71,7 +71,7 @@ public class FacebookApplication_TC4 {
     }
 }
 
-//Task_3 DemoWebShop_TC5
+//TASK_3 DemoWebShop_TC5
 package Assessment;
 
 import java.io.File;
