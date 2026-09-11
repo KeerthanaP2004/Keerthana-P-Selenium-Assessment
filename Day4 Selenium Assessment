@@ -1,4 +1,4 @@
-//TASK1 FacebookTextFieldMethod_TC8
+//TASK_1 FacebookTextFieldMethod_TC8
 package Assessment;
 
 import java.time.Duration;
@@ -27,7 +27,7 @@ public class FacebookTextFieldMethod_TC8 {
 }
 }
 
-//TASK2 ZomatoAppl_TC9
+//TASK_2 ZomatoAppl_TC9
 package Assessment;
 
 import java.time.Duration;
@@ -62,7 +62,7 @@ public class ZomatoAppl_TC9 {
 }
 
 
-//TASk3 BigBasketAppl_TC10
+//TASK_3 BigBasketAppl_TC10
 package Assessment;
 
 import java.time.Duration;
