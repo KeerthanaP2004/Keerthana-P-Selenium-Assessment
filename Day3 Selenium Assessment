@@ -1,4 +1,4 @@
-//TASK1 EaseMyTrip
+//TASK_1 EaseMyTrip
 package Assessment;
 
 import java.time.Duration;
@@ -94,7 +94,7 @@ public class EaseMyTrip_TC6 {
 	}
 }
 
-//TASK2 DemoApp
+//TASK_2 DemoApp
 package Assessment;
 
 import java.time.Duration;
