@@ -1,4 +1,4 @@
-//Task1 DemoWebShopFromPropertiesFile_TC1
+//TASK_1 DemoWebShopFromPropertiesFile_TC1
 package Assessment;
 
 import java.io.FileInputStream;
@@ -52,7 +52,7 @@ public class DemoWebShopFromPropertiesFile_TC1 {
 }
 
 
-//Task2 OrangeHrmApplicationFromExcel_TC2
+//TASK_2 OrangeHrmApplicationFromExcel_TC2
 package Assessment;
 
 import java.io.FileInputStream;
@@ -115,7 +115,7 @@ public class OrangeHrmApplicationFromExcel_TC2 {
 }
 
 
-//Task3 DemoAppsQspidersFromJson_TC3
+//TASK_3 DemoAppsQspidersFromJson_TC3
 package Assessment;
 
 import java.io.FileReader;
