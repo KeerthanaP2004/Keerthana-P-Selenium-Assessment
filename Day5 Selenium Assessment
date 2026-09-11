@@ -1,0 +1,172 @@
+//Task1 DemoWebShopFromPropertiesFile_TC1
+package Assessment;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DemoWebShopFromPropertiesFile_TC1 {
+	public static void main(String[] args) throws IOException, InterruptedException {
+		FileInputStream file=new FileInputStream("./src/test/resources/DDT/DemoWebShop.properties");
+		Properties p=new Properties();
+		p.load(file);
+		
+		String browser=p.getProperty("browser");
+		String Url=p.getProperty("url");
+		String email=p.getProperty("email");
+		String Password=p.getProperty("Password");
+		
+		WebDriver driver=null;
+		if(browser.equals("chrome"))
+		{
+			driver=new ChromeDriver();
+		}
+		Thread.sleep(2000);
+		
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get(Url);
+		System.out.println("DemoWebShop opened");
+		
+		driver.findElement(By.linkText("Log in")).click();
+		System.out.println("Login link clicked");
+		
+		driver.findElement(By.id("Email")).sendKeys(email);
+		System.out.println("Email Entered");
+		
+		driver.findElement(By.id("Password")).sendKeys(Password);
+		System.out.println("Password Entered");
+		
+		driver.findElement(By.xpath("//input[@value='Log in']")).click();
+		System.out.println("Login button clicked");
+		
+		Thread.sleep(2000);
+		
+		driver.quit();			
+	}
+}
+
+
+//Task2 OrangeHrmApplicationFromExcel_TC2
+package Assessment;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class OrangeHrmApplicationFromExcel_TC2 {
+	public static void main(String[] args) throws IOException, InterruptedException {
+		FileInputStream file=new FileInputStream("./src/test/resources/DDT/OrangeHRMApplExcel.xlsx");
+		Workbook wb=WorkbookFactory.create(file);
+		//sheet
+		Sheet sh=wb.getSheet("Sheet1");
+		//row
+		Row row=sh.getRow(0);
+		Cell cell=row.getCell(0);
+		//value
+		System.out.println(cell.getStringCellValue());
+		
+		String browser=wb.getSheet("Sheet1").getRow(1).getCell(0).getStringCellValue();
+		System.out.println(browser);
+		String Url=wb.getSheet("Sheet1").getRow(1).getCell(1).getStringCellValue();
+		System.out.println(Url);
+		String Username=wb.getSheet("Sheet1").getRow(1).getCell(2).getStringCellValue();
+		System.out.println(Username);
+		String Password=wb.getSheet("Sheet1").getRow(1).getCell(3).getStringCellValue();
+		System.out.println(Password);
+		
+		WebDriver driver=null;
+		if(browser.equals("chrome"))
+		{
+			driver=new ChromeDriver();
+		}
+		
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get(Url);
+		System.out.println("Orange HRM opened");
+		
+		driver.findElement(By.name("username")).sendKeys(Username);
+		System.out.println("Username entered");
+		
+		driver.findElement(By.name("password")).sendKeys(Password);
+		System.out.println("Password entered");
+
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		System.out.println("Login button clicked");
+
+		Thread.sleep(2000);
+
+		driver.quit();
+	}
+}
+
+
+//Task3 DemoAppsQspidersFromJson_TC3
+package Assessment;
+
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.Duration;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DemoAppsQspidersFromJson_TC3 {
+	public static void main(String[] args) throws IOException, ParseException, InterruptedException {
+		FileReader file=new FileReader("./src/test/resources/DDT/DemoAppsQspiders.json");
+		JSONParser jsonparser=new JSONParser();
+		Object obj=jsonparser.parse(file);
+		JSONObject json=(JSONObject) obj;
+		
+		String browser=json.get("browser").toString();
+		System.out.println(browser);
+		
+		String Url=json.get("url").toString();
+		System.out.println(Url);
+		
+		String Name=json.get("name").toString();
+		System.out.println(Name);
+		
+		String Email=json.get("email").toString();
+		System.out.println(Email);
+		
+		String Pass=json.get("Password").toString();
+		System.out.println(Pass);
+		
+		WebDriver driver=null;
+		if (browser.equals("chrome")) 
+		{
+			driver = new ChromeDriver();
+		}
+
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get(Url);
+
+		Thread.sleep(2000);
+		
+		driver.findElement(By.id("name")).sendKeys(Name);
+		driver.findElement(By.id("email")).sendKeys(Email);
+		driver.findElement(By.id("password")).sendKeys(Pass);
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		
+		driver.quit();
+	}
+}
