@@ -1,4 +1,12 @@
 //TASK_1 DemoWebShopFromPropertiesFile_TC1
+
+//DemoWebShop.Properties
+browser=chrome
+url=https://demowebshop.tricentis.com/
+email=Keertu21@gmail.com
+Password=Keertu
+
+//CODE
 package Assessment;
 
 import java.io.FileInputStream;
@@ -53,6 +61,12 @@ public class DemoWebShopFromPropertiesFile_TC1 {
 
 
 //TASK_2 OrangeHrmApplicationFromExcel_TC2
+
+//OrangeHRMApplFromExcel
+browser	Url	Username	Password
+chrome	https://opensource-demo.orangehrmlive.com/	Admin	admin123
+
+//CODE
 package Assessment;
 
 import java.io.FileInputStream;
@@ -116,6 +130,17 @@ public class OrangeHrmApplicationFromExcel_TC2 {
 
 
 //TASK_3 DemoAppsQspidersFromJson_TC3
+
+//DemoWebQspidersFromJson
+{
+	"browser":"chrome",
+	"url":"https://demoapps.qspiders.com/ui?scenario=1",
+	"name":"Keertu",
+	"email":"Keertu21@gmail.com",
+	"Password":"Keertu21"
+}
+
+//CODE
 package Assessment;
 
 import java.io.FileReader;
