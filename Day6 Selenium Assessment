@@ -1,0 +1,212 @@
+//TASK_1 OrangeHRMApplFromPropertiesandExcel_TC4
+
+//OrangeHRMAppl.Properties
+browser=chrome
+url=https://opensource-demo.orangehrmlive.com/
+username=Admin
+password=admin123
+
+//OrangeHRMApplExcel1
+browser	Url	FirstName	MiddleName	LastName	EmployeeID	EmployeeUsername	EmployeePassword	Role	EmployeeName	Status
+chrome	https://opensource-demo.orangehrmlive.com/	Keerthana	P	Test	2154	Keerthana2026	Test@123	ESS	Keerthana P Test	Enabled
+
+//CODE
+package Assessment;
+
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class OrangeHRMApplFromPropertiesandExcel_TC4 {
+	public static void main(String[] args) throws IOException, InterruptedException {
+		//Reading common data from properties file
+		FileReader file=new FileReader("./src/test/resources/DDT/OrangeHRMAppl.Properties");
+		Properties p=new Properties();
+		p.load(file);
+		
+		String browser=p.getProperty("browser");
+		System.out.println(browser);
+		
+		String url=p.getProperty("url");
+		System.out.println(url);
+		
+		String username=p.getProperty("username");
+		System.out.println(username);
+		
+		String password=p.getProperty("password");
+		System.out.println(password);
+		
+		//Reading test data from Excel file
+		FileInputStream excel=new FileInputStream("./src/test/resources/DDT/OrangeHRMApplExcel1.xlsx");
+		Workbook wb=WorkbookFactory.create(excel);
+		
+		String FirstName=wb.getSheet("Sheet1").getRow(1).getCell(2).getStringCellValue();
+		System.out.println(FirstName);
+
+		String MiddleName = wb.getSheet("Sheet1").getRow(1).getCell(3).getStringCellValue();
+		System.out.println(MiddleName);
+
+		String LastName = wb.getSheet("Sheet1").getRow(1).getCell(4).getStringCellValue();
+		System.out.println(LastName);
+
+		String EmployeeID = String.valueOf((long) wb.getSheet("Sheet1").getRow(1).getCell(5).getNumericCellValue());
+		System.out.println(EmployeeID);
+
+		String EmployeeUsername = wb.getSheet("Sheet1").getRow(1).getCell(6).getStringCellValue();
+		System.out.println(EmployeeUsername);
+
+		String EmployeePassword = wb.getSheet("Sheet1").getRow(1).getCell(7).getStringCellValue();
+		System.out.println(EmployeePassword);
+
+		String Role = wb.getSheet("Sheet1").getRow(1).getCell(8).getStringCellValue();
+		System.out.println(Role);
+
+		String EmployeeName = wb.getSheet("Sheet1").getRow(1).getCell(9).getStringCellValue();
+		System.out.println(EmployeeName);
+
+		String Status = wb.getSheet("Sheet1").getRow(1).getCell(10).getStringCellValue();
+		System.out.println(Status);
+		
+		//Launch browser
+		WebDriver driver = null;
+
+		if (browser.equals("chrome")) {
+			driver = new ChromeDriver();
+		}
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get(url);
+
+		System.out.println("Orange HRM opened");
+		
+		// Login
+		driver.findElement(By.name("username")).sendKeys(username);
+		System.out.println("Username entered");
+		
+		driver.findElement(By.name("password")).sendKeys(password);
+		System.out.println("Password entered");
+
+		driver.findElement(By.xpath("//button[@type='submit']")).click();
+		System.out.println("Login button clicked");
+	
+		Thread.sleep(2000);
+		
+		//Clcik Pin
+		driver.findElement(By.xpath("//span[text()='PIM']")).click();
+		System.out.println("PIM clicked");
+
+		Thread.sleep(2000);
+		
+		//Click Add
+		driver.findElement(By.xpath("//button[normalize-space()='Add']")).click();
+		System.out.println("Add button clicked");
+
+		Thread.sleep(2000);
+		
+		//Enter Employee Details
+		driver.findElement(By.name("firstName")).sendKeys(FirstName);
+		System.out.println("First name entered");
+
+		driver.findElement(By.name("middleName")).sendKeys(MiddleName);
+		System.out.println("Middle name entered");
+
+		driver.findElement(By.name("lastName")).sendKeys(LastName);
+		System.out.println("Last name entered");
+
+		driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div//input")).clear();
+		driver.findElement(By.xpath("//label[text()='Employee Id']/parent::div/following-sibling::div//input")).sendKeys(EmployeeID);
+
+		System.out.println("Employee ID entered");
+
+		Thread.sleep(3000);
+		
+		//Click Create Login Button
+		driver.findElement(By.xpath("//p[text()='Create Login Details']/following-sibling::div//span")).click();
+		System.out.println("Create Login Details Selected");
+
+		Thread.sleep(1000);
+		
+		//Enter Employee Username
+		driver.findElement(By.xpath("//label[text()='Username']/parent::div/following-sibling::div//input")).sendKeys(EmployeeUsername);
+		System.out.println("Employee Username Entered");
+		
+		//Enter Employee Password
+		driver.findElement(By.xpath("//label[text()='Password']/parent::div/following-sibling::div//input")).sendKeys(EmployeePassword);
+		System.out.println("Employee Password Entered");
+		
+		//Confirm Password
+		driver.findElement(By.xpath("//label[text()='Confirm Password']/parent::div/following-sibling::div//input")).sendKeys(EmployeePassword);
+		System.out.println("Confirm password entered");
+		
+		//Save Employee
+		driver.findElement(By.xpath("//button[normalize-space()='Save']")).click();
+		System.out.println("Save button clicked");
+
+		Thread.sleep(3000);
+		
+		//Click Admin
+		driver.findElement(By.xpath("//span[text()='Admin']")).click();
+		System.out.println("Admin clicked");
+
+		Thread.sleep(3000);
+		
+		//Enter Username in Admin Search
+		driver.findElement(By.xpath("//label[text()='Username']/following::input[1]")).sendKeys(EmployeeUsername);
+		System.out.println("Admin Username Entered");
+		
+		//Select CLass
+		driver.findElement(By.xpath("//label[text()='User Role']/parent::div/following-sibling::div//div[contains(@class,'oxd-select-text')]")).click();
+		driver.findElement(By.xpath("//div[@role='option']//span[text()='" + Role + "']")).click();
+		System.out.println("Role selected");
+		
+		//Enter Employee Name
+		driver.findElement(By.xpath("//label[text()='Employee Name']/parent::div/following-sibling::div//input")).sendKeys(EmployeeName);
+		Thread.sleep(2000);
+		
+		driver.findElement(By.xpath("//div[@role='option']//span[contains(text(),'" + EmployeeName + "')]")).click();
+		System.out.println("Employee Name Selected");
+		
+		//Select Status
+		driver.findElement(By.xpath("//label[text()='Status']/parent::div/following-sibling::div//div[contains(@class,'oxd-select-text')]")).click();
+		driver.findElement(By.xpath("//div[@role='option']//span[text()='" + Status + "']")).click();
+		System.out.println("Status Selected");
+		
+		//Clcik Search
+		driver.findElement(By.xpath("//button[normalize-space()='Search']")).click();
+		System.out.println("Search Button Clicked");
+
+		Thread.sleep(3000);
+		
+		//Verify Employee in Records Found
+		if (driver.findElement(By.xpath("//div[@class='oxd-table-cell oxd-padding-cell']/child::div[contains(.,'" + EmployeeUsername + "')]")).isDisplayed()) 
+		{
+		    System.out.println("Record is displayed");
+		} else {
+
+		    System.out.println("Record is NOT displayed");
+		}
+
+		Thread.sleep(5000);
+		
+		// Logout
+		driver.findElement(By.xpath("//span[contains(@class,'oxd-userdropdown-tab')]")).click();
+		Thread.sleep(1000);
+
+		driver.findElement(By.xpath("//a[text()='Logout']")).click();
+
+		System.out.println("Logout successful");
+
+		Thread.sleep(2000);
+
+		driver.quit();	
+	}
+}
+
