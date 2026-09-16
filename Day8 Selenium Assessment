@@ -1,242 +1,292 @@
 //TASK1 OrangeHRMApplPropertiesExcelPOM_TC5
 
-//OrangeHRMApplPOM_TC5
+//POM_FILES
+//POM_1 OrangeHRMApplLoginPOM_TC5
 package POM;
 
-import java.time.Duration;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+public class OrangeHRMApplLoginPOM_TC5 {
+
+    WebDriver driver;
+    public OrangeHRMApplLoginPOM_TC5(WebDriver driver) {
+    	this.driver = driver;
+        PageFactory.initElements(driver, this);
+	}
+
+	@FindBy(name = "username")
+    private WebElement username;
+
+    @FindBy(name = "password")
+    private WebElement password;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement loginButton;
+
+    public void getUsername(String value) {
+        username.sendKeys(value);
+    }
+
+    public void getPassword(String value) {
+        password.sendKeys(value);
+    }
+
+    public void getLoginButton() {
+        loginButton.click();
+    }
+
+    public void login(String user, String pass) {
+        getUsername(user);
+        getPassword(pass);
+        getLoginButton();
+    }
+}
+
+//POM_2 OrangeHRMApplRecruitmentPOM_TC5
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class OrangeHRMApplRecruitmentPOM_TC5 {
+
+    WebDriver driver;
+
+    public OrangeHRMApplRecruitmentPOM_TC5(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(xpath = "//span[text()='Recruitment']")
+    private WebElement recruitment;
+
+    @FindBy(xpath = "//button[normalize-space()='Add']")
+    private WebElement addButton;
+
+    @FindBy(xpath = "//a[normalize-space()='Candidates']")
+    private WebElement candidates;
+
+    @FindBy(xpath = "//span[contains(@class,'oxd-userdropdown-tab')]")
+    private WebElement userDropdown;
+
+    @FindBy(xpath = "//a[normalize-space()='Logout']")
+    private WebElement logout;
+
+    public void getRecruitment() {
+        recruitment.click();
+    }
+
+    public void getAddButton() {
+        addButton.click();
+    }
+
+    public void getCandidates() {
+        candidates.click();
+    }
+
+    public void getUserDropdown() {
+        userDropdown.click();
+    }
+
+    public void getLogout() {
+        logout.click();
+    }
+}
+
+//POM_3 OrangeHRMApplCandidatePOM_TC5
+package POM;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-public class OrangeHRMApplPOM_TC5 {
-	WebDriver driver;
-	WebDriverWait wait;
-	
-	//Initialization
-	public OrangeHRMApplPOM_TC5(WebDriver driver) {
-		this.driver=driver;
-		PageFactory.initElements(driver,this);
-		wait=new WebDriverWait(driver, Duration.ofSeconds(20));
-	}
-	//Declare
-	//Login
-	@FindBy(name = "username")
-	private WebElement username;
+public class OrangeHRMApplCandidatePOM_TC5 {
+    WebDriver driver;
 
-	@FindBy(name = "password")
-	private WebElement password;
+    public OrangeHRMApplCandidatePOM_TC5(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
 
-	@FindBy(xpath = "//button[@type='submit']")
-	private WebElement loginButton;
+    @FindBy(name = "firstName")
+    private WebElement firstName;
 
-	// Recruitment
-	@FindBy(xpath = "//span[text()='Recruitment']")
-	private WebElement recruitment;
+    @FindBy(name = "middleName")
+    private WebElement middleName;
 
-	@FindBy(xpath = "//button[normalize-space()='Add']")
-	private WebElement addButton;
+    @FindBy(name = "lastName")
+    private WebElement lastName;
 
-	// Candidate Details
+    @FindBy(xpath = "//label[text()='Vacancy']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+    private WebElement vacancy;
 
-	@FindBy(name = "firstName")
-	private WebElement firstName;
+    @FindBy(xpath = "//label[text()='Email']/../following-sibling::div//input")
+    private WebElement email;
 
-	@FindBy(name = "middleName")
-	private WebElement middleName;
+    @FindBy(xpath = "//label[text()='Contact Number']/../following-sibling::div//input")
+    private WebElement mobile;
 
-	@FindBy(name = "lastName")
-	private WebElement lastName;
-	
-	@FindBy(xpath = "//label[text()='Vacancy']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
-	private WebElement vacancy;
+    @FindBy(xpath = "//input[@type='file']")
+    private WebElement uploadFile;
 
-	@FindBy(xpath = "//label[text()='Email']/../following-sibling::div//input")
-	private WebElement email;
+    @FindBy(xpath = "//label[text()='Date of Application']/../following-sibling::div//input")
+    private WebElement applicationDate;
 
-	@FindBy(xpath = "//label[text()='Contact Number']/../following-sibling::div//input")
-	private WebElement mobile;
+    @FindBy(xpath = "//button[normalize-space()='Save']")
+    private WebElement saveButton;
 
-	@FindBy(xpath = "//input[@type='file']")
-	private WebElement uploadFile;
+    public void getFirstName(String value) {
+        firstName.sendKeys(value);
+    }
 
-	@FindBy(xpath = "//label[text()='Date of Application']/../following-sibling::div//input")
-	private WebElement applicationDate;
+    public void getMiddleName(String value) {
+        middleName.sendKeys(value);
+    }
 
-	@FindBy(xpath = "//button[normalize-space()='Save']")
-	private WebElement saveButton;
-	
-	//Candidates
-	@FindBy(xpath = "//a[normalize-space()='Candidates']")
-	private WebElement candidates;
+    public void getLastName(String value) {
+        lastName.sendKeys(value);
+    }
 
-	//Search fields
-	@FindBy(xpath = "//label[text()='Job Title']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
-	private WebElement jobTitle;
+    public void getVacancy(String value) {
+        vacancy.click();
+        driver.findElements(By.xpath("//div[@role='option']")).get(0).click();
+    }
 
-	@FindBy(xpath = "//label[text()='Vacancy']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
-	private WebElement JobvacancySearch;
+    public void getEmail(String value) {
+        email.sendKeys(value);
+    }
 
-	@FindBy(xpath = "//label[text()='Hiring Manager']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
-	private WebElement hiringManager;
+    public void getMobile(String value) {
+        mobile.sendKeys(value);
+    }
 
-	@FindBy(xpath = "//label[text()='Status']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
-	private WebElement status;
+    public void getUploadFile(String value) {
+        uploadFile.sendKeys(value);
+    }
 
-	@FindBy(xpath = "//label[text()='Candidate Name']/../following-sibling::div//input")
-	private WebElement candidateName;
+    public void getDateFrom(String value) {
+        applicationDate.sendKeys(value);
+    }
 
-	@FindBy(xpath = "//label[text()='Date of Application']/../following-sibling::div//input")
-	private WebElement searchApplicationDate;
+    public void getDateTo(String value) {
+        // Kept because you want to use this method in your test.
+        applicationDate.sendKeys(value);
+    }
 
-	@FindBy(xpath = "//button[normalize-space()='Search']")
-	private WebElement searchButton;
+    public void getSaveButton() {
+        saveButton.click();
+    }
 
-	// Logout
-	@FindBy(xpath = "//span[contains(@class,'oxd-userdropdown-tab')]")
-	private WebElement userDropdown;
+    public void addCandidate(String fname, String mname, String lname,
+            String vacancy, String mail, String phone,
+            String file, String date) {
 
-	@FindBy(xpath = "//a[normalize-space()='Logout']")
-	private WebElement logout;
+        getFirstName(fname);
+        getMiddleName(mname);
+        getLastName(lname);
+        getVacancy(vacancy);
+        getEmail(mail);
+        getMobile(phone);
+        getUploadFile(file);
+        getDateFrom(date);
+        getSaveButton();
+    }
+}
 
-	//Methods
-	public void getUsername(String value) {
-		username.sendKeys(value);;
-	}
+//POM_4OrangeHRMApplCandidatesSearchPOM_TC5
+package POM;
 
-	public void getPassword(String value) {
-		password.sendKeys(value);;
-	}
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
 
-	public void getLoginButton() {
-		loginButton.click();
-	}
+public class OrangeHRMApplCandidatesSearchPOM_TC5 {
 
-	public void getRecruitment() {
-		recruitment.click();
-	}
+    WebDriver driver;
 
-	public void getAddButton() {
-		addButton.click();
-	}
-	
-	public void getFirstName(String value) {
-		firstName.sendKeys(value);
-	}
+    public OrangeHRMApplCandidatesSearchPOM_TC5(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
 
-	public void getMiddleName(String value) {
-		middleName.sendKeys(value);
-	}
+    @FindBy(xpath = "//label[text()='Job Title']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+    private WebElement jobTitle;
 
-	public void getLastName(String value) {
-		lastName.sendKeys(value);
-	}
+    @FindBy(xpath = "//label[text()='Vacancy']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+    private WebElement JobvacancySearch;
 
-	public void getVacancy(String value) {
-	    vacancy.click();
-	    driver.findElements(By.xpath("//div[@role='option']")).get(0).click();
-	}
+    @FindBy(xpath = "//label[text()='Hiring Manager']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+    private WebElement hiringManager;
 
-	public void getEmail(String value) {
-		email.sendKeys(value);
-	}
+    @FindBy(xpath = "//label[text()='Status']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+    private WebElement status;
 
-	public void getMobile(String value) {
-		mobile.sendKeys(value);
-	}
+    @FindBy(xpath = "//label[text()='Candidate Name']/../following-sibling::div//input")
+    private WebElement candidateName;
 
-	public void getUploadFile(String value) {
-		uploadFile.sendKeys(value);
-	}
+    @FindBy(xpath = "//label[text()='Date of Application']/../following-sibling::div//input")
+    private WebElement searchApplicationDate;
 
-	public void getDateFrom(String value) {
-	    applicationDate.sendKeys(value);
-	}
+    @FindBy(xpath = "//button[normalize-space()='Search']")
+    private WebElement searchButton;
 
-	public void getDateTo(String value) {
-	    searchApplicationDate.sendKeys(value);
-	}
-	
-	public void getSaveButton() {
-		saveButton.click();
-	}
+    public void getJobTitle(String value) {
+        jobTitle.click();
+        driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
+    }
 
-	public void getCandidates() {
-		candidates.click();
-	}
+    public void getJobVacancySearch(String value) {
+        JobvacancySearch.click();
+        driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
+    }
 
-	public void getJobTitle(String value) {
-	    jobTitle.click();
-	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
-	}
+    public void getHiringManager(String value) {
+        hiringManager.click();
+        driver.findElements(By.xpath("//div[@role='option']")).get(0).click();
+    }
 
-	public void getJobVacancySearch(String value) {
-	    JobvacancySearch.click();
-	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
-	}
+    public void getStatus(String value) {
+        status.click();
+        driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
+    }
 
-	public void getHiringManager(String HiringManager) {
-	    driver.findElement(By.xpath("//label[text()='Hiring Manager']/parent::div/following-sibling::div//div[contains(@class,'oxd-select-text')]")).click();
-	    driver.findElements(By.xpath("//div[@role='option']")).get(0).click();
-	}
+    public void getCandidateName(String value) {
+        candidateName.sendKeys(value);
+    }
 
-	public void getStatus(String value) {
-	    status.click();
-	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
-	}
+    public void getDateFrom(String value) {
+        searchApplicationDate.sendKeys(value);
+    }
 
-	public void getCandidateName(String value) {
-		candidateName.sendKeys(value);
-	}
+    public void getDateTo(String value) {
+        searchApplicationDate.sendKeys(value);
+    }
 
-	public void getSearchApplicationDate(String value) {
-		searchApplicationDate.sendKeys(value);
-	}
+    public void getSearchButton() {
+        searchButton.click();
+    }
 
-	public void getSearchButton() {
-		searchButton.click();
-	}
+    public void searchCandidate(String jobTitle, String vacancy,
+            String manager, String status, String candidateName,
+            String applicationDate) {
 
-	public void getUserDropdown() {
-		userDropdown.click();
-	}
-
-	public void getLogout() {
-		logout.click();
-	}
-	
-	// Business Logic
-    public void login(String user, String pass) {
-    	getUsername(user);
-    	getPassword(pass);
-    	getLoginButton();
-		}
-
-	public void addCandidate(String fname, String mname, String lname, String vacancy, String mail, String phone,String file, String date) {
-		getFirstName(fname);
-		getMiddleName(mname);
-		getLastName(lname);
-		getVacancy(vacancy);
-		getEmail(mail);
-		getMobile(phone);
-		getUploadFile(file);
-		getDateFrom(date);
-		getDateTo(date);
-		getSaveButton();
-		}
-
-	public void searchCandidate(String jobTitle, String vacancy, String manager, String status, String candidateName,String applicationDate) {
-		 getJobTitle(jobTitle);
-		 getJobVacancySearch(vacancy);
-		 getHiringManager(manager);
-	     getStatus(status);
-	     getCandidateName(candidateName);
-   	     getSearchApplicationDate(applicationDate);
-		 getSearchButton();
-		}
+        getJobTitle(jobTitle);
+        getJobVacancySearch(vacancy);
+        getHiringManager(manager);
+        getStatus(status);
+        getCandidateName(candidateName);
+        getDateFrom(applicationDate);
+        getDateTo(applicationDate);
+        getSearchButton();
+    }
 }
 
 
@@ -268,7 +318,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import POM.OrangeHRMApplPOM_TC5;
+import POM.OrangeHRMApplCandidatePOM_TC5;
+import POM.OrangeHRMApplCandidatesSearchPOM_TC5;
+import POM.OrangeHRMApplLoginPOM_TC5;
+import POM.OrangeHRMApplRecruitmentPOM_TC5;
 
 public class OrangeHRMApplPropertiesExcelPOM_TC5 {
 	public static void main(String[] args) throws IOException, InterruptedException {
@@ -295,14 +348,14 @@ public class OrangeHRMApplPropertiesExcelPOM_TC5 {
 		Sheet sh = wb.getSheet("Sheet1");
 		Row row = sh.getRow(1);
 
-		String FirstName = row.getCell(1).getStringCellValue();
-		System.out.println(FirstName);
+		String firstName = row.getCell(1).getStringCellValue();
+		System.out.println(firstName);
 
-		String MiddleName = row.getCell(2).getStringCellValue();
-		System.out.println(MiddleName);
+		String middleName = row.getCell(2).getStringCellValue();
+		System.out.println(middleName);
 
-		String LastName = row.getCell(3).getStringCellValue();
-		System.out.println(LastName);
+		String lastName = row.getCell(3).getStringCellValue();
+		System.out.println(lastName);
 
 		String Vacancy = row.getCell(4).getStringCellValue();
 		System.out.println(Vacancy);
@@ -344,93 +397,101 @@ public class OrangeHRMApplPropertiesExcelPOM_TC5 {
 		System.out.println("Orange HRM opened");
 
 		// THIS IS THE POM OBJECT
-		OrangeHRMApplPOM_TC5 pom = new OrangeHRMApplPOM_TC5(driver);
+		OrangeHRMApplLoginPOM_TC5 login = new OrangeHRMApplLoginPOM_TC5(driver);
+		OrangeHRMApplRecruitmentPOM_TC5 recruitment = new OrangeHRMApplRecruitmentPOM_TC5(driver);
+		OrangeHRMApplCandidatePOM_TC5 candidate = new OrangeHRMApplCandidatePOM_TC5(driver);
+		OrangeHRMApplCandidatesSearchPOM_TC5 search = new OrangeHRMApplCandidatesSearchPOM_TC5(driver);
 
+		// LOGIN
 		// Login
-		pom.getUsername(username);
-		pom.getPassword(password);
-		pom.getLoginButton();
+		login.getUsername(username);
+		login.getPassword(password);
+		login.getLoginButton();
 		System.out.println("Login successful");
 		Thread.sleep(2000);
 
+		// RECRUITMENT
 		// Click Recruitment
-		pom.getRecruitment();
+		recruitment.getRecruitment();
 		System.out.println("Recruitment clicked");
 		Thread.sleep(2000);
 
+		// ADD CANDIDATE
 		// Click Add
-		pom.getAddButton();
+		recruitment.getAddButton();
 		System.out.println("Add button clicked");
 		Thread.sleep(2000);
-
+		
 		// Enter Candidate Details
-		pom.getFirstName(FirstName);
+		candidate.getFirstName(firstName);
 		System.out.println("First name entered");
 
-		pom.getMiddleName(MiddleName);
+		candidate.getMiddleName(middleName);
 		System.out.println("Middle name entered");
 
-		pom.getLastName(LastName);
+		candidate.getLastName(lastName);
 		System.out.println("Last name entered");
 
 		// Select Vacancy
-		pom.getVacancy(Vacancy);
+		candidate.getVacancy(Vacancy);
 		System.out.println("Vacancy selected");
 
 		// Enter Email
-		pom.getEmail(Email);
+		candidate.getEmail(Email);
 		System.out.println("Email entered");
 
 		// Enter Mobile Number
-		pom.getMobile(Mobile);
+		candidate.getMobile(Mobile);
 		System.out.println("Mobile number entered");
 
 		// Upload File
-		pom.getUploadFile(FilePath);
+		candidate.getUploadFile(FilePath);
 		System.out.println("File uploaded");
 
 		// Enter Application Date
-		pom.getDateFrom(ApplicationDate);
-		pom.getDateTo(ApplicationDate);
+		candidate.getDateFrom(ApplicationDate);
+		candidate.getDateTo(ApplicationDate);
 		System.out.println("Application date entered");
 
-		// Save Candidate
-		pom.getSaveButton();
-		System.out.println("Save button clicked");
-		Thread.sleep(3000);
-
+		// CANDIDATES
 		// Click Candidates
-		pom.getCandidates();
-		System.out.println("Candidates clicked");
+	    recruitment.getCandidates();
+	    System.out.println("Candidates clicked");
 		Thread.sleep(2000);
 
+//		// Save Candidate
+//		candidate.getSaveButton();
+//		System.out.println("Save button clicked");
+//		Thread.sleep(3000);
+
+		// SEARCH CANDIDATE
 		// Select Job Title
-		pom.getJobTitle(JobTitle);
+		search.getJobTitle(JobTitle);
 		System.out.println("Job Title selected");
 
 		// Select Vacancy
-		pom.getJobVacancySearch(Vacancy);
+		search.getJobVacancySearch(Vacancy);
 		System.out.println("Vacancy selected in search");
 
 		// Select Hiring Manager
-		pom.getHiringManager(HiringManager);
+		search.getHiringManager(HiringManager);
 		System.out.println("Hiring Manager selected");
 
 		// Select Status
-		pom.getStatus(Status);
+		search.getStatus(Status);
 		System.out.println("Status selected");
 
 		// Enter Candidate Name
-		pom.getCandidateName(CandidateName);
+		search.getCandidateName(CandidateName);
 		System.out.println("Candidate Name entered");
 
 		// Enter Application Date
-		pom.getDateFrom(ApplicationDate);
-		pom.getDateTo(ApplicationDate);
+		search.getDateFrom(ApplicationDate);
+		search.getDateTo(ApplicationDate);
 		System.out.println("Application Date entered");
 
 		// Click Search
-		pom.getSearchButton();
+		search.getSearchButton();
 		System.out.println("Search button clicked");
 		Thread.sleep(3000);
 
@@ -445,10 +506,10 @@ public class OrangeHRMApplPropertiesExcelPOM_TC5 {
 		Thread.sleep(3000);
 
 		// Logout
-		pom.getUserDropdown();
+		recruitment.getUserDropdown();
 		Thread.sleep(1000);
 
-		pom.getLogout();
+		recruitment.getLogout();
 		System.out.println("Logout successful");
 		Thread.sleep(2000);
 
