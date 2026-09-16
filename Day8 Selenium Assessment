@@ -152,8 +152,12 @@ public class OrangeHRMApplPOM_TC5 {
 		uploadFile.sendKeys(value);
 	}
 
-	public void getApplicationDate(String value) {
-		applicationDate.sendKeys(value);
+	public void getDateFrom(String value) {
+	    applicationDate.sendKeys(value);
+	}
+
+	public void getDateTo(String value) {
+	    searchApplicationDate.sendKeys(value);
 	}
 	
 	public void getSaveButton() {
@@ -219,7 +223,8 @@ public class OrangeHRMApplPOM_TC5 {
 		getEmail(mail);
 		getMobile(phone);
 		getUploadFile(file);
-		getApplicationDate(date);
+		getDateFrom(date);
+		getDateTo(date);
 		getSaveButton();
 		}
 
@@ -232,22 +237,8 @@ public class OrangeHRMApplPOM_TC5 {
    	     getSearchApplicationDate(applicationDate);
 		 getSearchButton();
 		}
-
-	public void getAddCandidate() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void getDateFrom(String applicationDate2) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void getDateTo(String applicationDate2) {
-		// TODO Auto-generated method stub
-		
-	}
 }
+
 
 //OrangeHRMAppl_TC5.properties
 browser=chrome
@@ -365,13 +356,11 @@ public class OrangeHRMApplPropertiesExcelPOM_TC5 {
 		// Click Recruitment
 		pom.getRecruitment();
 		System.out.println("Recruitment clicked");
-		pom.getAddCandidate();
 		Thread.sleep(2000);
 
 		// Click Add
 		pom.getAddButton();
 		System.out.println("Add button clicked");
-
 		Thread.sleep(2000);
 
 		// Enter Candidate Details
