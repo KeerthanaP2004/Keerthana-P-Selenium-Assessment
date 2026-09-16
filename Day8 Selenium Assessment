@@ -1,0 +1,242 @@
+//TASK1 OrangeHRMApplPropertiesExcelPOM_TC5
+
+package Assessment;
+
+import java.io.FileInputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import POM.OrangeHRMApplPOM_TC5;
+
+public class OrangeHRMApplPropertiesExcelPOM_TC5 {
+
+	public static void main(String[] args) throws IOException, InterruptedException {
+
+		// Reading common data from properties file
+
+		FileReader file = new FileReader("./src/test/resources/DDT/OrangeHRMApp_TC5.properties");
+		Properties p = new Properties();
+		p.load(file);
+
+		String browser = p.getProperty("browser");
+		System.out.println(browser);
+
+		String url = p.getProperty("url");
+		System.out.println(url);
+
+		String username = p.getProperty("username");
+		System.out.println(username);
+
+		String password = p.getProperty("password");
+		System.out.println(password);
+
+		// Reading test data from Excel file
+
+		FileInputStream excel = new FileInputStream("./src/test/resources/DDT/OrangeHRMAppl_TC5.Excel.xlsx");
+
+		Workbook wb = WorkbookFactory.create(excel);
+
+		String FirstName = wb.getSheet("Sheet1").getRow(1).getCell(1).getStringCellValue();
+		System.out.println(FirstName);
+
+		String MiddleName = wb.getSheet("Sheet1").getRow(1).getCell(2).getStringCellValue();
+		System.out.println(MiddleName);
+
+		String LastName = wb.getSheet("Sheet1").getRow(1).getCell(3).getStringCellValue();
+		System.out.println(LastName);
+
+		String Vacancy = wb.getSheet("Sheet1").getRow(1).getCell(4).getStringCellValue();
+		System.out.println(Vacancy);
+
+		String Email = wb.getSheet("Sheet1").getRow(1).getCell(5).getStringCellValue();
+		System.out.println(Email);
+
+		String Mobile = String.valueOf(
+				(long) wb.getSheet("Sheet1").getRow(1).getCell(6).getNumericCellValue());
+		System.out.println(Mobile);
+
+		String FilePath = wb.getSheet("Sheet1").getRow(1).getCell(7).getStringCellValue();
+		System.out.println(FilePath);
+
+		// Application Date
+//		String ApplicationDate = wb.getSheet("Sheet1").getRow(1).getCell(8).getStringCellValue();
+//		System.out.println(ApplicationDate);
+		String ApplicationDate = "2026-09-16";
+		System.out.println(ApplicationDate);
+
+		String JobTitle = wb.getSheet("Sheet1").getRow(1).getCell(9).getStringCellValue();
+		System.out.println(JobTitle);
+
+		String HiringManager = wb.getSheet("Sheet1").getRow(1).getCell(10).getStringCellValue();
+		System.out.println(HiringManager);
+
+		String Status = wb.getSheet("Sheet1").getRow(1).getCell(11).getStringCellValue();
+		System.out.println(Status);
+
+		String CandidateName = wb.getSheet("Sheet1").getRow(1).getCell(12).getStringCellValue();
+		System.out.println(CandidateName);
+
+		// Launch browser
+
+		WebDriver driver = null;
+
+		if (browser.equals("chrome")) {
+			driver = new ChromeDriver();
+		}
+
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+		driver.get(url);
+
+		System.out.println("Orange HRM opened");
+
+		// THIS IS THE POM OBJECT
+
+		OrangeHRMApplPOM_TC5 pom = new OrangeHRMApplPOM_TC5(driver);
+
+		// Login
+
+		pom.login(username, password);
+		System.out.println("Login successful");
+
+		Thread.sleep(2000);
+
+		// Click Recruitment
+
+		pom.getRecruitment();
+		System.out.println("Recruitment clicked");
+
+		Thread.sleep(2000);
+
+		// Click Add
+
+		pom.getAddButton();
+		System.out.println("Add button clicked");
+
+		Thread.sleep(2000);
+
+		// Enter Candidate Details
+
+		pom.getFirstName(FirstName);
+		System.out.println("First name entered");
+
+		pom.getMiddleName(MiddleName);
+		System.out.println("Middle name entered");
+
+		pom.getLastName(LastName);
+		System.out.println("Last name entered");
+
+		// Select Vacancy
+
+		pom.getVacancy(Vacancy);
+		System.out.println("Vacancy selected");
+
+		// Enter Email
+
+		pom.getEmail(Email);
+		System.out.println("Email entered");
+
+		// Enter Mobile Number
+
+		pom.getMobile(Mobile);
+		System.out.println("Mobile number entered");
+
+		// Upload File
+
+		pom.getUploadFile(FilePath);
+		System.out.println("File uploaded");
+
+		// Enter Application Date
+
+		pom.getApplicationDate(ApplicationDate);
+		System.out.println("Application date entered");
+
+		// Save Candidate
+
+		pom.getSaveButton();
+		System.out.println("Save button clicked");
+
+		Thread.sleep(3000);
+
+		// Click Candidates
+
+		pom.getCandidates();
+		System.out.println("Candidates clicked");
+
+		Thread.sleep(2000);
+
+		// Select Job Title
+
+		pom.getJobTitle(JobTitle);
+		System.out.println("Job Title selected");
+
+		// Select Vacancy
+
+		pom.getVacancySearch(Vacancy);
+		System.out.println("Vacancy selected in search");
+
+		// Select Hiring Manager
+
+		pom.getHiringManager(HiringManager);
+		System.out.println("Hiring Manager selected");
+
+		// Select Status
+
+		pom.getStatus(Status);
+		System.out.println("Status selected");
+
+		// Enter Candidate Name
+
+		pom.getCandidateName(CandidateName);
+		System.out.println("Candidate Name entered");
+
+		// Enter Application Date
+
+		pom.getSearchApplicationDate(ApplicationDate);
+		System.out.println("Application Date entered");
+
+		// Click Search
+
+		pom.getSearchButton();
+		System.out.println("Search button clicked");
+
+		Thread.sleep(3000);
+
+		// Verify Candidate in Records Found
+
+		if (driver.findElements(By.xpath(
+				"//div[@class='oxd-table-cell oxd-padding-cell']/child::div[contains(.,'"
+						+ CandidateName + "')]")).size() > 0) {
+
+			System.out.println("Record is displayed");
+
+		} else {
+
+			System.out.println("Record is NOT displayed");
+		}
+
+		Thread.sleep(3000);
+
+		// Logout
+
+		pom.getUserDropdown();
+
+		Thread.sleep(1000);
+
+		pom.getLogout();
+
+		System.out.println("Logout successful");
+
+		Thread.sleep(2000);
+
+		driver.quit();
+	}
+}
