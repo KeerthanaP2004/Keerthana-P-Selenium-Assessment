@@ -1,5 +1,253 @@
 //TASK1 OrangeHRMApplPropertiesExcelPOM_TC5
 
+//OrangeHRMApplPOM_TC5
+package POM;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class OrangeHRMApplPOM_TC5 {
+	WebDriver driver;
+	WebDriverWait wait;
+	
+	//Initialization
+	public OrangeHRMApplPOM_TC5(WebDriver driver) {
+		this.driver=driver;
+		PageFactory.initElements(driver,this);
+		wait=new WebDriverWait(driver, Duration.ofSeconds(20));
+	}
+	//Declare
+	//Login
+	@FindBy(name = "username")
+	private WebElement username;
+
+	@FindBy(name = "password")
+	private WebElement password;
+
+	@FindBy(xpath = "//button[@type='submit']")
+	private WebElement loginButton;
+
+	// Recruitment
+	@FindBy(xpath = "//span[text()='Recruitment']")
+	private WebElement recruitment;
+
+	@FindBy(xpath = "//button[normalize-space()='Add']")
+	private WebElement addButton;
+
+	// Candidate Details
+
+	@FindBy(name = "firstName")
+	private WebElement firstName;
+
+	@FindBy(name = "middleName")
+	private WebElement middleName;
+
+	@FindBy(name = "lastName")
+	private WebElement lastName;
+	
+	@FindBy(xpath = "//label[text()='Vacancy']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+	private WebElement vacancy;
+
+	@FindBy(xpath = "//label[text()='Email']/../following-sibling::div//input")
+	private WebElement email;
+
+	@FindBy(xpath = "//label[text()='Contact Number']/../following-sibling::div//input")
+	private WebElement mobile;
+
+	@FindBy(xpath = "//input[@type='file']")
+	private WebElement uploadFile;
+
+	@FindBy(xpath = "//label[text()='Date of Application']/../following-sibling::div//input")
+	private WebElement applicationDate;
+
+	@FindBy(xpath = "//button[normalize-space()='Save']")
+	private WebElement saveButton;
+	
+	//Candidates
+	@FindBy(xpath = "//a[normalize-space()='Candidates']")
+	private WebElement candidates;
+
+	//Search fields
+	@FindBy(xpath = "//label[text()='Job Title']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+	private WebElement jobTitle;
+
+	@FindBy(xpath = "//label[text()='Vacancy']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+	private WebElement vacancySearch;
+
+	@FindBy(xpath = "//label[text()='Hiring Manager']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+	private WebElement hiringManager;
+
+	@FindBy(xpath = "//label[text()='Status']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
+	private WebElement status;
+
+	@FindBy(xpath = "//label[text()='Candidate Name']/../following-sibling::div//input")
+	private WebElement candidateName;
+
+	@FindBy(xpath = "//label[text()='Date of Application']/../following-sibling::div//input")
+	private WebElement searchApplicationDate;
+
+	@FindBy(xpath = "//button[normalize-space()='Search']")
+	private WebElement searchButton;
+
+	// Logout
+	@FindBy(xpath = "//span[contains(@class,'oxd-userdropdown-tab')]")
+	private WebElement userDropdown;
+
+	@FindBy(xpath = "//a[normalize-space()='Logout']")
+	private WebElement logout;
+
+	//Methods
+	public void getUsername(String value) {
+		username.sendKeys(value);;
+	}
+
+	public void getPassword(String value) {
+		password.sendKeys(value);;
+	}
+
+	public void getLoginButton() {
+		loginButton.click();
+	}
+
+	public void getRecruitment() {
+		recruitment.click();
+	}
+
+	public void getAddButton() {
+		addButton.click();
+	}
+	
+	public void getFirstName(String value) {
+		firstName.sendKeys(value);
+	}
+
+	public void getMiddleName(String value) {
+		middleName.sendKeys(value);
+	}
+
+	public void getLastName(String value) {
+		lastName.sendKeys(value);
+	}
+
+	public void getVacancy(String value) {
+	    vacancy.click();
+	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
+	}
+
+	public void getEmail(String value) {
+		email.sendKeys(value);
+	}
+
+	public void getMobile(String value) {
+		mobile.sendKeys(value);
+	}
+
+	public void getUploadFile(String value) {
+		uploadFile.sendKeys(value);
+	}
+
+	public void getApplicationDate(String value) {
+		applicationDate.sendKeys(value);
+	}
+	
+	public void getSaveButton() {
+		saveButton.click();
+	}
+
+	public void getCandidates() {
+		candidates.click();
+	}
+
+	public void getJobTitle(String value) {
+	    jobTitle.click();
+	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
+	}
+
+	public void getVacancySearch(String value) {
+	    vacancySearch.click();
+	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
+	}
+
+	public void getHiringManager(String value) {
+	    hiringManager.click();
+	    driver.findElement(By.xpath(
+	        "//div[@role='option']//span[normalize-space()='" + value + "']"
+	    )).click();
+	}
+
+	public void getStatus(String value) {
+	    status.click();
+	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
+	}
+
+	public void getCandidateName(String value) {
+		candidateName.sendKeys(value);
+	}
+
+	public void getSearchApplicationDate(String value) {
+		searchApplicationDate.sendKeys(value);
+	}
+
+	public void getSearchButton() {
+		searchButton.click();
+	}
+
+	public void getUserDropdown() {
+		userDropdown.click();
+	}
+
+	public void getLogout() {
+		logout.click();
+	}
+	
+	// Business Logic
+    public void login(String user, String pass) {
+    	getUsername(user);
+    	getPassword(pass);
+    	getLoginButton();
+		}
+
+	public void addCandidate(String fname, String mname, String lname, String vacancy, String mail, String phone,String file, String date) {
+		getFirstName(fname);
+		getMiddleName(mname);
+		getLastName(lname);
+		getVacancy(vacancy);
+		getEmail(mail);
+		getMobile(phone);
+		getUploadFile(file);
+		getApplicationDate(date);
+		getSaveButton();
+		}
+
+	public void searchCandidate(String jobTitle, String vacancy, String manager, String status, String candidateName,String applicationDate) {
+		 getJobTitle(jobTitle);
+		 getVacancySearch(vacancy);
+		 getHiringManager(manager);
+	     getStatus(status);
+	     getCandidateName(candidateName);
+   	     getSearchApplicationDate(applicationDate);
+		 getSearchButton();
+		}
+	}
+
+//OrangeHRMAppl_TC5.properties
+browser=chrome
+url=https://opensource-demo.orangehrmlive.com/
+username=Admin
+password=admin123
+
+//OrangeHRMAppl_TC5.Excel
+S.No	FirstName	MiddleName	LastName	Vacancy	Email	Mobile	FilePath	ApplicatioData	JobTitle	HiringManager	Status	CandidateName
+1	Keerthana	P	Test	Software Engineer	Keertu21@gmail.com	9867451325	C:\Users\HP\Desktop\KEERTHANA P RESUME 083(10-07-2026) NP.pdf	16-09-2026	Software Engineer	manda user	Application Initiated	Keerthana P Test
+
+//TEST SCRIPT 
+//CODE
 package Assessment;
 
 import java.io.FileInputStream;
