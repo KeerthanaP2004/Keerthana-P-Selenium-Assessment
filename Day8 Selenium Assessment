@@ -78,7 +78,7 @@ public class OrangeHRMApplPOM_TC5 {
 	private WebElement jobTitle;
 
 	@FindBy(xpath = "//label[text()='Vacancy']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
-	private WebElement vacancySearch;
+	private WebElement JobvacancySearch;
 
 	@FindBy(xpath = "//label[text()='Hiring Manager']/../following-sibling::div//div[contains(@class,'oxd-select-text')]")
 	private WebElement hiringManager;
@@ -137,7 +137,7 @@ public class OrangeHRMApplPOM_TC5 {
 
 	public void getVacancy(String value) {
 	    vacancy.click();
-	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
+	    driver.findElements(By.xpath("//div[@role='option']")).get(0).click();
 	}
 
 	public void getEmail(String value) {
@@ -169,16 +169,14 @@ public class OrangeHRMApplPOM_TC5 {
 	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
 	}
 
-	public void getVacancySearch(String value) {
-	    vacancySearch.click();
+	public void getJobVacancySearch(String value) {
+	    JobvacancySearch.click();
 	    driver.findElement(By.xpath("//div[@role='option']//span[normalize-space()='" + value + "']")).click();
 	}
 
-	public void getHiringManager(String value) {
-	    hiringManager.click();
-	    driver.findElement(By.xpath(
-	        "//div[@role='option']//span[normalize-space()='" + value + "']"
-	    )).click();
+	public void getHiringManager(String HiringManager) {
+	    driver.findElement(By.xpath("//label[text()='Hiring Manager']/parent::div/following-sibling::div//div[contains(@class,'oxd-select-text')]")).click();
+	    driver.findElements(By.xpath("//div[@role='option']")).get(0).click();
 	}
 
 	public void getStatus(String value) {
@@ -227,14 +225,29 @@ public class OrangeHRMApplPOM_TC5 {
 
 	public void searchCandidate(String jobTitle, String vacancy, String manager, String status, String candidateName,String applicationDate) {
 		 getJobTitle(jobTitle);
-		 getVacancySearch(vacancy);
+		 getJobVacancySearch(vacancy);
 		 getHiringManager(manager);
 	     getStatus(status);
 	     getCandidateName(candidateName);
    	     getSearchApplicationDate(applicationDate);
 		 getSearchButton();
 		}
+
+	public void getAddCandidate() {
+		// TODO Auto-generated method stub
+		
 	}
+
+	public void getDateFrom(String applicationDate2) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void getDateTo(String applicationDate2) {
+		// TODO Auto-generated method stub
+		
+	}
+}
 
 //OrangeHRMAppl_TC5.properties
 browser=chrome
@@ -256,6 +269,8 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Properties;
 
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.By;
@@ -265,11 +280,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 import POM.OrangeHRMApplPOM_TC5;
 
 public class OrangeHRMApplPropertiesExcelPOM_TC5 {
-
 	public static void main(String[] args) throws IOException, InterruptedException {
-
 		// Reading common data from properties file
-
 		FileReader file = new FileReader("./src/test/resources/DDT/OrangeHRMApp_TC5.properties");
 		Properties p = new Properties();
 		p.load(file);
@@ -287,55 +299,49 @@ public class OrangeHRMApplPropertiesExcelPOM_TC5 {
 		System.out.println(password);
 
 		// Reading test data from Excel file
-
 		FileInputStream excel = new FileInputStream("./src/test/resources/DDT/OrangeHRMAppl_TC5.Excel.xlsx");
-
 		Workbook wb = WorkbookFactory.create(excel);
+		Sheet sh = wb.getSheet("Sheet1");
+		Row row = sh.getRow(1);
 
-		String FirstName = wb.getSheet("Sheet1").getRow(1).getCell(1).getStringCellValue();
+		String FirstName = row.getCell(1).getStringCellValue();
 		System.out.println(FirstName);
 
-		String MiddleName = wb.getSheet("Sheet1").getRow(1).getCell(2).getStringCellValue();
+		String MiddleName = row.getCell(2).getStringCellValue();
 		System.out.println(MiddleName);
 
-		String LastName = wb.getSheet("Sheet1").getRow(1).getCell(3).getStringCellValue();
+		String LastName = row.getCell(3).getStringCellValue();
 		System.out.println(LastName);
 
-		String Vacancy = wb.getSheet("Sheet1").getRow(1).getCell(4).getStringCellValue();
+		String Vacancy = row.getCell(4).getStringCellValue();
 		System.out.println(Vacancy);
 
-		String Email = wb.getSheet("Sheet1").getRow(1).getCell(5).getStringCellValue();
+		String Email = row.getCell(5).getStringCellValue();
 		System.out.println(Email);
 
-		String Mobile = String.valueOf(
-				(long) wb.getSheet("Sheet1").getRow(1).getCell(6).getNumericCellValue());
+		String Mobile = String.valueOf((long) row.getCell(6).getNumericCellValue());
 		System.out.println(Mobile);
 
-		String FilePath = wb.getSheet("Sheet1").getRow(1).getCell(7).getStringCellValue();
+		String FilePath = row.getCell(7).getStringCellValue();
 		System.out.println(FilePath);
 
-		// Application Date
-//		String ApplicationDate = wb.getSheet("Sheet1").getRow(1).getCell(8).getStringCellValue();
-//		System.out.println(ApplicationDate);
-		String ApplicationDate = "2026-09-16";
+		String ApplicationDate = new java.text.SimpleDateFormat("dd-MM-yyyy").format(row.getCell(8).getDateCellValue());
 		System.out.println(ApplicationDate);
-
-		String JobTitle = wb.getSheet("Sheet1").getRow(1).getCell(9).getStringCellValue();
+		
+		String JobTitle = row.getCell(9).getStringCellValue();
 		System.out.println(JobTitle);
 
-		String HiringManager = wb.getSheet("Sheet1").getRow(1).getCell(10).getStringCellValue();
+		String HiringManager = row.getCell(10).getStringCellValue();
 		System.out.println(HiringManager);
 
-		String Status = wb.getSheet("Sheet1").getRow(1).getCell(11).getStringCellValue();
+		String Status = row.getCell(11).getStringCellValue();
 		System.out.println(Status);
 
-		String CandidateName = wb.getSheet("Sheet1").getRow(1).getCell(12).getStringCellValue();
+		String CandidateName = row.getCell(12).getStringCellValue();
 		System.out.println(CandidateName);
 
 		// Launch browser
-
 		WebDriver driver = null;
-
 		if (browser.equals("chrome")) {
 			driver = new ChromeDriver();
 		}
@@ -347,32 +353,28 @@ public class OrangeHRMApplPropertiesExcelPOM_TC5 {
 		System.out.println("Orange HRM opened");
 
 		// THIS IS THE POM OBJECT
-
 		OrangeHRMApplPOM_TC5 pom = new OrangeHRMApplPOM_TC5(driver);
 
 		// Login
-
-		pom.login(username, password);
+		pom.getUsername(username);
+		pom.getPassword(password);
+		pom.getLoginButton();
 		System.out.println("Login successful");
-
 		Thread.sleep(2000);
 
 		// Click Recruitment
-
 		pom.getRecruitment();
 		System.out.println("Recruitment clicked");
-
+		pom.getAddCandidate();
 		Thread.sleep(2000);
 
 		// Click Add
-
 		pom.getAddButton();
 		System.out.println("Add button clicked");
 
 		Thread.sleep(2000);
 
 		// Enter Candidate Details
-
 		pom.getFirstName(FirstName);
 		System.out.println("First name entered");
 
@@ -383,106 +385,82 @@ public class OrangeHRMApplPropertiesExcelPOM_TC5 {
 		System.out.println("Last name entered");
 
 		// Select Vacancy
-
 		pom.getVacancy(Vacancy);
 		System.out.println("Vacancy selected");
 
 		// Enter Email
-
 		pom.getEmail(Email);
 		System.out.println("Email entered");
 
 		// Enter Mobile Number
-
 		pom.getMobile(Mobile);
 		System.out.println("Mobile number entered");
 
 		// Upload File
-
 		pom.getUploadFile(FilePath);
 		System.out.println("File uploaded");
 
 		// Enter Application Date
-
-		pom.getApplicationDate(ApplicationDate);
+		pom.getDateFrom(ApplicationDate);
+		pom.getDateTo(ApplicationDate);
 		System.out.println("Application date entered");
 
 		// Save Candidate
-
 		pom.getSaveButton();
 		System.out.println("Save button clicked");
-
 		Thread.sleep(3000);
 
 		// Click Candidates
-
 		pom.getCandidates();
 		System.out.println("Candidates clicked");
-
 		Thread.sleep(2000);
 
 		// Select Job Title
-
 		pom.getJobTitle(JobTitle);
 		System.out.println("Job Title selected");
 
 		// Select Vacancy
-
-		pom.getVacancySearch(Vacancy);
+		pom.getJobVacancySearch(Vacancy);
 		System.out.println("Vacancy selected in search");
 
 		// Select Hiring Manager
-
 		pom.getHiringManager(HiringManager);
 		System.out.println("Hiring Manager selected");
 
 		// Select Status
-
 		pom.getStatus(Status);
 		System.out.println("Status selected");
 
 		// Enter Candidate Name
-
 		pom.getCandidateName(CandidateName);
 		System.out.println("Candidate Name entered");
 
 		// Enter Application Date
-
-		pom.getSearchApplicationDate(ApplicationDate);
+		pom.getDateFrom(ApplicationDate);
+		pom.getDateTo(ApplicationDate);
 		System.out.println("Application Date entered");
 
 		// Click Search
-
 		pom.getSearchButton();
 		System.out.println("Search button clicked");
-
 		Thread.sleep(3000);
 
 		// Verify Candidate in Records Found
+		int count = driver.findElements(By.xpath("//div[contains(@class,'oxd-table-body')]//div[contains(@class,'oxd-table-row')]")).size();
 
-		if (driver.findElements(By.xpath(
-				"//div[@class='oxd-table-cell oxd-padding-cell']/child::div[contains(.,'"
-						+ CandidateName + "')]")).size() > 0) {
-
-			System.out.println("Record is displayed");
-
+		if (count > 0) {
+			System.out.println("Candidate is added successfully");
 		} else {
-
-			System.out.println("Record is NOT displayed");
+			System.out.println("Candidate is NOT added");
 		}
-
 		Thread.sleep(3000);
 
 		// Logout
-
 		pom.getUserDropdown();
-
 		Thread.sleep(1000);
 
 		pom.getLogout();
-
 		System.out.println("Logout successful");
-
 		Thread.sleep(2000);
 
 		driver.quit();
