@@ -1,0 +1,85 @@
+//TASK1 SauceDemoApplImplementation_TC6
+
+//SauceDemoApplImplement_TC6
+package POM;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class SauceDemoApplImplement {
+	WebDriver driver;
+	public void launchbrowser() {
+		driver=new ChromeDriver();
+		driver.manage().window().maximize();
+		driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+	}
+	public void openurl()
+	{
+		driver.get("https://www.saucedemo.com/");
+	}
+	public void Username()
+	{
+		driver.findElement(By.id("user-name")).sendKeys("performance_glitch_user");
+	}
+	public void Password()
+	{
+		driver.findElement(By.id("password")).sendKeys("secret_sauce");
+	}
+	public void Login()
+	{
+		driver.findElement(By.id("login-button")).click();
+	}
+}
+
+
+//SauceDemoApplExecutor_TC6
+package POM;
+
+public class SauceDemoApplExecutor_TC6 {
+	SauceDemoApplImplement_TC6 s=new SauceDemoApplImplement_TC6();
+	
+	public void executor(String keyword)
+	{
+		if(keyword.equals("LAUNCH_BROWSER"))
+		{
+			s.launchbrowser();
+		}
+		else if(keyword.equals("OPEN_URL"))
+		{
+			s.openurl();
+		}
+		else if(keyword.equals("USERNAME"))
+		{
+			s.Username();
+		}
+		else if(keyword.equals("PASSWORD"))
+		{
+			s.Password();
+		}
+		else if(keyword.equals("LOGIN"))
+		{
+			s.Login();
+		}
+	}
+}
+
+
+//SauceDemoApplImplementation_TC6
+package FrameWork;
+
+import POM.SauceDemoApplExecutor_TC6;
+
+public class SauceDemoApplImplementation_TC6 {
+	public static void main(String[] args) {
+		SauceDemoApplExecutor_TC6 se=new SauceDemoApplExecutor_TC6();
+		
+		se.executor("LAUNCH_BROWSER");
+		se.executor("OPEN_URL");
+		se.executor("USERNAME");
+		se.executor("PASSWORD");
+		se.executor("LOGIN");				
+	}
+}
