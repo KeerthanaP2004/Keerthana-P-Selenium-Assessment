@@ -1,0 +1,387 @@
+//TASK_1 SauceDemoBaseClassImplementation_TC7
+
+//BASE UTILITY FILE
+//SauceDemoBaseClass_TC7
+package BaseClassUtility;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+
+public class SauceDemoBaseClass_TC7 {
+	public WebDriver driver=null;
+	public Properties p = null;
+	@BeforeSuite
+	public void Bs() {
+		System.out.println("Open database connectivity");
+	}
+	@BeforeTest
+	public void Bt() {
+		System.out.println("pre-conditon");
+	}
+	@BeforeClass
+	public void Bc() throws IOException {
+		//Read properties file
+		FileInputStream fis=new FileInputStream("./src/test/resources/DDT/SauceDemoBaseClass.propertirs_TC7");
+		p = new Properties(); 
+		p.load(fis);
+		
+		// Launch browser
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        System.out.println("Launch the browser");
+	}
+	@BeforeMethod
+	public void Bm() throws IOException{
+		driver.get(p.getProperty("Url"));
+        System.out.println("Navigate to SauceDemo Application");
+    }
+	@AfterMethod
+    public void Am() {
+        System.out.println("Logout executed");
+    }
+
+    @AfterClass
+    public void Ac() {
+        driver.quit();
+        System.out.println("Close the browser");
+    }
+
+    @AfterTest
+    public void At() {
+        System.out.println("Post-condition");
+    }
+    @AfterSuite
+    public void As() {
+        System.out.println("Close the database");
+	}
+}
+
+
+//POM FILES
+//POM_1 SauceDemoPOMBaseClassLoginPage_TC7
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class SauceDemoPOMBaseClassLoginPage_TC7 {
+	WebDriver driver;
+	 public SauceDemoPOMBaseClassLoginPage_TC7(WebDriver driver) {
+	        this.driver = driver;
+	        PageFactory.initElements(driver, this);
+	    }
+	 @FindBy(id = "user-name")
+	 private WebElement username;
+
+	 @FindBy(id = "password")
+	 private WebElement password;
+
+	 @FindBy(id = "login-button")
+	 private WebElement loginButton;
+	 
+	 public void enterUsername(String value) {
+		 username.sendKeys(value);
+	    }
+	 
+	 public void enterPassword(String value) {
+	        password.sendKeys(value);
+	    }
+
+	 public void clickLogin() {
+		 loginButton.click();
+	    } 
+}
+
+
+//POM_2 SauceDemoPOMBaseClassProductsPage_TC7
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class SauceDemoPOMBaseClassProductsPage_TC7 {
+	WebDriver driver;
+	 public SauceDemoPOMBaseClassProductsPage_TC7(WebDriver driver) {
+	        this.driver = driver;
+	        PageFactory.initElements(driver, this);
+	    }
+	 
+	 @FindBy(xpath = "//span[text()='Products']")
+	 private WebElement productsText;
+	 
+	 @FindBy(id = "add-to-cart-sauce-labs-backpack")
+	 private WebElement sauceLabsBackpack;
+	 
+	 @FindBy(className = "shopping_cart_link")
+	 private WebElement cart;
+
+	 @FindBy(className = "shopping_cart_badge")
+	 private WebElement cartBadge;
+	 
+	 public boolean verifyProductsPage() {
+	        return productsText.isDisplayed();
+	    }
+	 
+	 public void addSauceLabsBackpack() {
+	        sauceLabsBackpack.click();
+	    }
+
+	 public String getCartCount() {
+	        return cartBadge.getText();
+	    }
+	 
+	 public void clickCart() {
+	        cart.click();
+	    }
+}
+
+
+//POM_3 SauceDemoPOMBaseClassCartPage_TC7
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class SauceDemoPOMBaseClassCartPage_TC7 {
+	WebDriver driver;
+	public SauceDemoPOMBaseClassCartPage_TC7(WebDriver driver) {
+		this.driver = driver;
+	    PageFactory.initElements(driver, this);
+	    }
+	
+	@FindBy(xpath = "//div[text()='Sauce Labs Backpack']")
+    private WebElement backpack;
+	
+	@FindBy(id = "checkout")
+	private WebElement checkoutButton;
+	
+	public boolean verifyBackpackDisplayed() {
+        return backpack.isDisplayed();
+    }
+	
+	public void clickCheckout() {
+        checkoutButton.click();
+    }
+}
+
+
+//POM_4 SauceDemoPOMBaseClassCheckoutPage_TC7
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class SauceDemoPOMBaseClassCheckoutPage_TC7 {
+	WebDriver driver;
+	public SauceDemoPOMBaseClassCheckoutPage_TC7(WebDriver driver) {
+		this.driver = driver;
+	    PageFactory.initElements(driver, this);
+	    }
+	
+	@FindBy(id = "first-name")
+    private WebElement firstName;
+	
+    @FindBy(id = "last-name")
+	private WebElement lastName;
+
+	@FindBy(id = "postal-code")
+	private WebElement postalCode;
+	
+	@FindBy(id = "continue")
+    private WebElement continueButton;
+	
+	@FindBy(xpath = "//span[text()='Checkout: Overview']")
+    private WebElement checkoutOverview;
+	
+	@FindBy(id = "finish")
+    private WebElement finishButton;
+	
+	@FindBy(xpath = "//h2[text()='Thank you for your order!']")
+    private WebElement orderMessage;
+	
+	public void enterFirstName(String value) {
+        firstName.sendKeys(value);
+    }
+	
+	public void enterLastName(String value) {
+        lastName.sendKeys(value);
+    }
+	
+	public void enterPostalCode(String value) {
+	    postalCode.sendKeys(value);
+	}
+	
+	public void clickContinue() {
+        continueButton.click();
+    }
+	
+	public boolean verifyCheckoutOverview() {
+        return checkoutOverview.isDisplayed();
+    }
+	
+	public void clickFinish() {
+        finishButton.click();
+    }
+	
+	public boolean verifyOrderMessage() {
+	    return orderMessage.isDisplayed();
+	}
+}
+
+
+//PROPERTY FILE
+//SauceDemoBaseClass.properties_TC7
+browser=chrome
+Url=https://www.saucedemo.com/
+Username=standard_user
+Password=secret_sauce
+
+//EXCEL FILE
+//SauceDemoBaseClassExcel_TC7
+FirstName	LastName	PostalCode
+Keerthana	P	        583104
+
+
+//TEST SCRIPT
+//CODE
+package BaseUtility;
+
+import java.io.FileInputStream;
+
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+
+import org.testng.annotations.Test;
+
+import BaseClassUtility.SauceDemoBaseClass_TC7;
+import POM.SauceDemoPOMBaseClassCartPage_TC7;
+import POM.SauceDemoPOMBaseClassCheckoutPage_TC7;
+import POM.SauceDemoPOMBaseClassLoginPage_TC7;
+import POM.SauceDemoPOMBaseClassProductsPage_TC7;
+
+public class SauceDemoBaseClassImplementation_TC7 extends SauceDemoBaseClass_TC7 {
+
+    // Login Test
+    @Test
+    public void loginTest() {
+
+        SauceDemoPOMBaseClassLoginPage_TC7 login = new SauceDemoPOMBaseClassLoginPage_TC7(driver);
+        SauceDemoPOMBaseClassProductsPage_TC7 products = new SauceDemoPOMBaseClassProductsPage_TC7(driver);
+
+        // Login
+        login.enterUsername(p.getProperty("Username"));
+        login.enterPassword(p.getProperty("Password"));
+        login.clickLogin();
+
+        // Verify Products Page
+        if (products.verifyProductsPage()) {
+
+        } else {
+
+        }
+    }
+
+    // Order Placement Test
+    @Test
+    public void orderPlacementTest() throws Exception {
+
+        // Read Excel
+        FileInputStream fis =new FileInputStream("./src/test/resources/DDT/SauceDemoBaseClassExcel_TC7.xlsx");
+        Workbook workbook = WorkbookFactory.create(fis);
+        Sheet sh = workbook.getSheet("Sheet1");
+        Row row = sh.getRow(1);
+
+        String FirstName = row.getCell(0).getStringCellValue();
+        String LastName = row.getCell(1).getStringCellValue();
+        String PostalCode = String.valueOf((int) row.getCell(2).getNumericCellValue());
+
+        // Login
+        SauceDemoPOMBaseClassLoginPage_TC7 login = new SauceDemoPOMBaseClassLoginPage_TC7(driver);
+
+        login.enterUsername(p.getProperty("Username"));
+        login.enterPassword(p.getProperty("Password"));
+        login.clickLogin();
+
+        Thread.sleep(2000);
+
+        // Products Page
+        SauceDemoPOMBaseClassProductsPage_TC7 products = new SauceDemoPOMBaseClassProductsPage_TC7(driver);
+
+        if (products.verifyProductsPage()) {
+
+            Thread.sleep(2000);
+
+            // Add Backpack
+            products.addSauceLabsBackpack();
+
+            // Verify Cart Contains 1 Item
+            String count = products.getCartCount();
+
+            if (count.equals("1")) {
+
+                Thread.sleep(2000);
+
+                // Open Cart
+                products.clickCart();
+
+                // Verify Backpack
+                SauceDemoPOMBaseClassCartPage_TC7 cart = new SauceDemoPOMBaseClassCartPage_TC7(driver);
+
+                if (cart.verifyBackpackDisplayed()) {
+
+                    // Checkout
+                    cart.clickCheckout();
+
+                    // Enter Checkout Details
+                    SauceDemoPOMBaseClassCheckoutPage_TC7 checkout = new SauceDemoPOMBaseClassCheckoutPage_TC7(driver);
+
+                    checkout.enterFirstName(FirstName);
+                    checkout.enterLastName(LastName);
+                    checkout.enterPostalCode(PostalCode);
+
+                    checkout.clickContinue();
+
+                    // Verify Checkout Overview
+                    if (checkout.verifyCheckoutOverview()) {
+
+                        // Finish
+                        checkout.clickFinish();
+
+                        // Verify Order Message
+                        if (checkout.verifyOrderMessage()) {
+
+                        }
+                    }
+                }
+            }
+        }
+
+        // Close Excel
+        workbook.close();
+        fis.close();
+    }
+}
