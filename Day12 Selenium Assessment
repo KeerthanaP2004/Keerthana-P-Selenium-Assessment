@@ -296,3 +296,382 @@ public class OrangeHRMApplImplementation_TC8
         fis.close();
     }
 }
+
+
+
+//TASK_2 OrangeHRMApplImplementation_TC9
+
+//BASE UTILITY FILE
+//OrangeHRMApplBaseClass_TC9
+package BaseClassUtility;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+
+import POM.OrangeHRMApplLoginPage_TC9;
+
+public class OrangeHRMApplBaseClass_TC9 {
+    public WebDriver driver;
+    public Properties p;
+
+    String Browser;
+    String username;
+    String password;
+    String url;
+
+    @BeforeSuite
+    public void Bs() {
+        System.out.println("Open database connectivity");
+    }
+
+    @BeforeTest
+    public void Bt() {
+        System.out.println("pre-condition");
+    }
+
+    @BeforeClass
+    public void Bc() throws IOException {
+        FileInputStream fis = new FileInputStream("./src/test/resources/DDT/OrangeHRMAppl_TC9.properties");
+        p = new Properties();
+        p.load(fis);
+        fis.close();
+
+        driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        System.out.println("Launch the browser");
+    }
+
+    @BeforeMethod
+    public void Bm() {
+        driver.get(p.getProperty("Url"));
+        OrangeHRMApplLoginPage_TC9 login = new OrangeHRMApplLoginPage_TC9(driver);
+        login.enterUsername(p.getProperty("Username"));
+        login.enterPassword(p.getProperty("Password"));
+        login.clickLogin();
+        System.out.println("Login executed");
+    }
+
+    @AfterMethod
+    public void Am() {
+        System.out.println("Logout executed");
+    }
+
+    @AfterClass
+    public void Ac() {
+        if (driver != null) {
+            driver.quit();
+        }
+        System.out.println("close the browser");
+    }
+
+    @AfterTest
+    public void At() {
+        System.out.println("post-condition");
+    }
+
+    @AfterSuite
+    public void As() {
+        System.out.println("close the database");
+    }
+}
+
+
+//POM FILES
+//POM_1 OrangeHRMApplLoginPage_TC9
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class OrangeHRMApplLoginPage_TC9 {
+    WebDriver driver;
+
+    public OrangeHRMApplLoginPage_TC9(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(name = "username")
+    private WebElement username;
+
+    @FindBy(name = "password")
+    private WebElement password;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement loginButton;
+
+    public void enterUsername(String value) {
+        username.sendKeys(value);
+    }
+
+    public void enterPassword(String value) {
+        password.sendKeys(value);
+    }
+
+    public void clickLogin() {
+        loginButton.click();
+    }
+}
+
+//POM_2 OrangeHRMApplMyInfoPage_TC9
+package POM;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.Keys;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class OrangeHRMApplMyInfoPage_TC9 {
+    WebDriver driver;
+    WebDriverWait wait;
+
+    public OrangeHRMApplMyInfoPage_TC9(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+    }
+
+    @FindBy(xpath = "//span[text()='My Info']")
+    private WebElement myInfoLink;
+
+    @FindBy(name = "firstName")
+    private WebElement firstName;
+
+    @FindBy(name = "lastName")
+    private WebElement lastName;
+
+    @FindBy(xpath = "//label[text()='Employee Id']/following::input[1]")
+    private WebElement employeeId;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement saveButton;
+
+    @FindBy(xpath = "//span[contains(@class,'oxd-userdropdown-tab')]")
+    private WebElement userDropdown;
+
+    @FindBy(xpath = "//a[text()='Logout']")
+    private WebElement logoutButton;
+
+    public void clickMyInfo() {
+        myInfoLink.click();
+    }
+
+    public void enterFirstName(String value) throws InterruptedException {
+    	wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//div[contains(@class,'oxd-form-loader')]")));
+        firstName.click();
+        firstName.sendKeys(Keys.CONTROL, "a");
+        firstName.sendKeys(Keys.BACK_SPACE);
+        Thread.sleep(2000);
+        firstName.sendKeys(value);
+    }
+    
+    public void enterLastName(String value) throws InterruptedException {
+    	wait.until(ExpectedConditions.invisibilityOfElementLocated( By.xpath("//div[contains(@class,'oxd-form-loader')]")));
+        lastName.click();
+        lastName.sendKeys(Keys.CONTROL, "a");
+        lastName.sendKeys(Keys.BACK_SPACE);
+        Thread.sleep(2000);
+        lastName.sendKeys(value);
+    }
+
+    public void enterEmployeeId(String value) throws InterruptedException {
+    	wait.until(ExpectedConditions.invisibilityOfElementLocated( By.xpath("//div[contains(@class,'oxd-form-loader')]")));
+        employeeId.click();
+        employeeId.sendKeys(Keys.CONTROL, "a");
+        employeeId.sendKeys(Keys.BACK_SPACE);
+        Thread.sleep(2000);
+        employeeId.sendKeys(value);
+    }
+
+    public void clickSave() {
+        saveButton.click();
+    }
+
+    public String getFirstName() {
+        return firstName.getDomProperty("value");
+    }
+
+
+    public String getLastName() {
+        return lastName.getDomProperty("value");
+    }
+
+
+    public String getEmployeeId() {
+        return employeeId.getDomProperty("value");
+    }
+
+
+    public void clickUserDropdown() {
+        userDropdown.click();
+    }
+
+
+    public void clickLogout() {
+        logoutButton.click();
+    }
+}
+
+//POM_3 OrangeHRMApplLogoutPage_TC9
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class OrangeHRMApplLogoutPage_TC9 {
+	WebDriver driver; 
+	public OrangeHRMApplLogoutPage_TC9(WebDriver driver) { 
+		this.driver = driver; 
+		PageFactory.initElements(driver, this); 
+	}
+	
+	@FindBy(xpath = "//span[contains(@class,'oxd-userdropdown-tab')]") 
+	private WebElement userMenu; 
+	
+	@FindBy(xpath = "//a[text()='Logout']") 
+	private WebElement logout; 
+	
+	public void clickUserMenu() { 
+		userMenu.click(); 
+	} 
+	
+	public void clickLogout() 
+	{ 
+		logout.click(); 
+	}
+}
+
+
+//PROPERTIES FILE
+//OrangeHRMAppl_TC9.properties
+browser=chrome
+Url=https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+Username=Admin
+Password=admin123
+
+//EXCEL FILE
+//OrangeHRMAppl_TC9.xlsx
+FirstName	LastName	EmployeeID
+Keerthana	P	        2154
+		
+For multiple data:		
+FirstName	LastName  EmployeeID
+Keerthana	Test2	   2121
+Keerthu	    Test	   2004
+Ammu	   Test1       2026
+
+
+//TEST SCRIPT
+//CODE
+package UsingTestNG;
+
+import java.io.FileInputStream;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import BaseClassUtility.OrangeHRMApplBaseClass_TC9;
+import POM.OrangeHRMApplLoginPage_TC9;
+import POM.OrangeHRMApplMyInfoPage_TC9;
+
+public class OrangeHRMApplImplementation_TC9 extends OrangeHRMApplBaseClass_TC9 {
+
+    @Test
+    public void editEmployeeDetailsTest() throws Exception {
+        // Read employee details from Excel
+        FileInputStream fis = new FileInputStream("./src/test/resources/DDT/OrangeHRMAppl_TC9.xlsx");
+        Workbook workbook = WorkbookFactory.create(fis);
+        
+        String firstName = workbook.getSheet("Sheet1").getRow(1).getCell(0).getStringCellValue();
+        String lastName = workbook.getSheet("Sheet1").getRow(1).getCell(1).getStringCellValue();
+        String employeeId = String.valueOf((long) workbook.getSheet("Sheet1").getRow(1).getCell(2).getNumericCellValue());
+
+        System.out.println("First Name = " + firstName); 
+        System.out.println("Last Name = " + lastName); 
+        System.out.println("Employee ID = " + employeeId);
+        
+        workbook.close();
+        fis.close();
+        
+        // Create MyInfo POM object
+        OrangeHRMApplMyInfoPage_TC9 myInfo = new OrangeHRMApplMyInfoPage_TC9(driver);
+
+        // Click My Info
+        myInfo.clickMyInfo();
+
+        // Edit First Name
+        myInfo.enterFirstName(firstName);
+
+        // Edit Last Name
+        myInfo.enterLastName(lastName);
+
+        // Edit Employee ID
+        myInfo.enterEmployeeId(employeeId);
+
+        // Click Save
+        myInfo.clickSave();
+        System.out.println("Employee details updated successfully");
+
+        // Logout
+        myInfo.clickUserDropdown();
+        myInfo.clickLogout();
+        System.out.println("Logout successful");
+
+        // Login again
+        driver.get(p.getProperty("Url"));
+        OrangeHRMApplLoginPage_TC9 login = new OrangeHRMApplLoginPage_TC9(driver);
+        login.enterUsername(p.getProperty("Username"));
+        login.enterPassword(p.getProperty("Password"));
+        login.clickLogin();
+
+        System.out.println("Login successful");
+        Thread.sleep(2000);
+
+        // Click My Info again
+        OrangeHRMApplMyInfoPage_TC9 myInfo2 = new OrangeHRMApplMyInfoPage_TC9(driver); 
+        myInfo2.clickMyInfo();
+        Thread.sleep(2000);
+
+        // Verify First Name
+        Assert.assertEquals( myInfo2.getFirstName(), firstName, "First Name is not updated");
+
+        // Verify Last Name
+        Assert.assertEquals( myInfo2.getLastName(), lastName, "Last Name is not updated");
+
+        // Verify Employee ID
+        Assert.assertEquals( myInfo2.getEmployeeId(), employeeId, "Employee ID is not updated");
+        System.out.println("Employee details verified successfully");
+
+        // Logout
+        myInfo2.clickUserDropdown();
+        myInfo2.clickLogout();
+        System.out.println("Logout completed");
+    }
+}
