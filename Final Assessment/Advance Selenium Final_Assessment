@@ -1,0 +1,317 @@
+//TASK_1 OrangeHRMApplImplementation_Assessment2
+
+//BASE UTILITY FILE
+//OrangeHRMApplBaseClass_Assessment2
+package BaseClassUtility;
+
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.time.Duration;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Properties;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterSuite;
+import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
+
+import POM.OrangeHRMApplLoginPage_Assessment2;
+import POM.OrangeHRMApplLogoutPage_Assessment2;
+
+public class OrangeHRMApplBaseClass_Assessment2 {
+
+    protected WebDriver driver;
+
+    String browser;
+    String url;
+    String username;
+    String password;
+
+    @BeforeSuite
+    public void BS() {
+        System.out.println("Open database connectivity");
+    }
+
+    @AfterSuite
+    public void AS() {
+        System.out.println("Close database connectivity");
+    }
+
+    @BeforeTest
+    public void BT() {
+        System.out.println("pre condition");
+    }
+
+    @AfterTest
+    public void AT() {
+        System.out.println("post condition");
+    }
+
+    @BeforeClass
+    public void setup() throws IOException {
+        // PROPERTY FILE
+        FileInputStream f = new FileInputStream("./src/test/resources/DDT/OrangeHRMAppl_Assessment2.properties");
+        Properties p = new Properties();
+        p.load(f);
+
+        browser = p.getProperty("browser");
+        url = p.getProperty("Url");
+        username = p.getProperty("Username");
+        password = p.getProperty("Password");
+
+        // CHROME SETTINGS
+        ChromeOptions settings = new ChromeOptions();
+        Map<String, Object> prefs = new HashMap<>();
+        prefs.put("profile.password_manager_leak_detection",false);
+        settings.setExperimentalOption("prefs", prefs);
+
+        // BROWSER
+        if (browser.equalsIgnoreCase("chrome")) {
+            driver = new ChromeDriver(settings);
+        }
+
+        if (browser.equalsIgnoreCase("edge")) {
+            driver = new EdgeDriver();
+        }
+
+        if (browser.equalsIgnoreCase("firefox")) {
+            driver = new FirefoxDriver();
+        }
+
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+    }
+
+    @AfterClass
+    public void closeBrowser() {
+        driver.quit();
+        System.out.println("Close the browser");
+    }
+
+    @BeforeMethod
+    public void BM() throws IOException {
+        // OPEN URL
+        driver.get(url);
+        // LOGIN
+        OrangeHRMApplLoginPage_Assessment2 lp = new OrangeHRMApplLoginPage_Assessment2(driver);
+
+        lp.enterUsername(username);
+        lp.enterPassword(password);
+        lp.clickLogin();
+        System.out.println("Login executed");
+    }
+
+    @AfterMethod
+    public void AM() {
+        OrangeHRMApplLogoutPage_Assessment2 lp =
+                new OrangeHRMApplLogoutPage_Assessment2(driver);
+
+        lp.clickUserMenu();
+        lp.clickLogout();
+
+        System.out.println("Logout successful");
+    }
+}
+
+//POM FILES
+//POM_1 OrangeHRMApplLoginPage_Assessment2
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class OrangeHRMApplLoginPage_Assessment2 {
+    WebDriver driver;
+    public OrangeHRMApplLoginPage_Assessment2(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(name = "username")
+    private WebElement username;
+
+    @FindBy(name = "password")
+    private WebElement password;
+
+    @FindBy(xpath = "//button[@type='submit']")
+    private WebElement loginButton;
+
+    public void enterUsername(String value) {
+        username.sendKeys(value);
+    }
+
+    public void enterPassword(String value) {
+        password.sendKeys(value);
+    }
+
+    public void clickLogin() {
+        loginButton.click();
+    }
+}
+
+//POM_2 OrangeHRMApplBuzzPage_Assessment2
+package POM;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class OrangeHRMApplBuzzPage_Assessment2 {
+    WebDriver driver;
+    WebDriverWait wait;
+
+    public OrangeHRMApplBuzzPage_Assessment2(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+        wait = new WebDriverWait(driver,Duration.ofSeconds(10));
+    }
+
+    @FindBy(xpath = "//span[text()='Buzz']")
+    private WebElement buzzLink;
+
+    @FindBy(xpath = "//textarea")
+    private WebElement postTextArea;
+
+    @FindBy(xpath = "//button[normalize-space()='Post']")
+    private WebElement postButton;
+
+    public void clickBuzz() {
+        wait.until(ExpectedConditions.elementToBeClickable(buzzLink));
+        buzzLink.click();
+    }
+
+    public void enterPost(String value) {
+        wait.until(ExpectedConditions.visibilityOf(postTextArea));
+        postTextArea.sendKeys(value);
+    }
+
+    public void clickPost() {
+        wait.until(ExpectedConditions.elementToBeClickable(postButton));
+        postButton.click();
+    }
+
+    public boolean verifyPost(String value) {
+        By recentPost =By.xpath("//p[contains(normalize-space(),'"+ value + "')]");
+        try {
+            WebElement post =wait.until(ExpectedConditions.visibilityOfElementLocated(recentPost));
+            return post.isDisplayed();
+        } catch (Exception e) {
+            return false;
+        }
+    }
+}
+
+//POM_3 OrangeHRMApplLogoutPage_Assessment2
+package POM;
+
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+
+import org.openqa.selenium.support.FindBy;
+import org.openqa.selenium.support.PageFactory;
+
+public class OrangeHRMApplLogoutPage_Assessment2 {
+
+    WebDriver driver;
+    public OrangeHRMApplLogoutPage_Assessment2(WebDriver driver) {
+        this.driver = driver;
+        PageFactory.initElements(driver, this);
+    }
+
+    @FindBy(xpath ="//span[contains(@class,'oxd-userdropdown-tab')]")
+    private WebElement userMenu;
+
+    @FindBy(xpath = "//a[text()='Logout']")
+    private WebElement logout;
+
+    public void clickUserMenu() {
+        userMenu.click();
+    }
+
+    public void clickLogout() {
+        logout.click();
+    }
+}
+
+//PROPERTY FILE
+//OrangeHRMAppl_Assessment2.properties
+browser=chrome
+Url=https://opensource-demo.orangehrmlive.com/web/index.php/auth/login
+Username=Admin
+Password=admin123
+
+//EXCEL FILE
+//OrangeHRMAppl_Assessment2.Excel
+Post
+This is my Selenium Assessment 2 post
+
+
+//TEST SCRIPT
+//CODE
+package UsingTestNG;
+
+import java.io.FileInputStream;
+
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
+import org.testng.Assert;
+import org.testng.annotations.Test;
+
+import BaseClassUtility.OrangeHRMApplBaseClass_Assessment2;
+import POM.OrangeHRMApplBuzzPage_Assessment2;
+import POM.OrangeHRMApplLogoutPage_Assessment2;
+
+public class OrangeHRMApplImplementation_Assessment2 extends OrangeHRMApplBaseClass_Assessment2 {
+
+    @Test
+    public void createBuzzPostTest() throws Exception {
+        // Read post data from Excel
+        FileInputStream fis = new FileInputStream("./src/test/resources/DDT/OrangeHRMAppl_Assessment2.Excel.xlsx");
+        Workbook workbook = WorkbookFactory.create(fis);
+        String post = workbook.getSheet("Sheet1").getRow(1).getCell(0).getStringCellValue();
+        System.out.println("Post = " + post);
+
+        workbook.close();
+        fis.close();
+
+        // Create Buzz POM object
+        OrangeHRMApplBuzzPage_Assessment2 buzz = new OrangeHRMApplBuzzPage_Assessment2(driver);
+
+        // Click Buzz
+        buzz.clickBuzz();
+
+        // Enter post
+        buzz.enterPost(post);
+
+        // Click Post
+        buzz.clickPost();
+        System.out.println("Post button clicked");
+
+        // Verify post
+        boolean result = buzz.verifyPost(post);
+        Assert.assertTrue(result,"Post is not displayed in Recent Posts");
+        System.out.println("Post verified successfully in Recent Posts");
+
+    }
+}
