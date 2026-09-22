@@ -1,0 +1,174 @@
+//ASSESSMENT-1
+//TASK_1 DemoAppQSTogglePage_Task1
+package FinalAssessment;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
+public class DemoAppQSTogglePage_Task1 {
+		public static void main(String[] args) throws InterruptedException {
+			WebDriver driver = new ChromeDriver();
+			driver.manage().window().maximize();
+			driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(10));
+			
+			driver.get("https://demoapps.qspiders.com/ui/toggle?sublist=0");
+			JavascriptExecutor js = (JavascriptExecutor)driver;
+			WebElement btn1 = driver.findElement(By.id("tog"));
+			Thread.sleep(1000);
+			
+			js.executeScript("arguments[0].removeAttribute('disabled');", btn1);
+			js.executeScript("arguments[0].click()",btn1);
+			Thread.sleep(2000);
+			
+			WebElement btn2 = driver.findElement(By.id("togg"));
+			Thread.sleep(1000);
+			js.executeScript("arguments[0].removeAttribute('disabled');", btn2);
+			js.executeScript("arguments[0].click()",btn2);
+			
+			WebElement btn3 = driver.findElement(By.id("toggl"));
+			Thread.sleep(1000);
+			js.executeScript("arguments[0].removeAttribute('disabled');", btn3);
+			js.executeScript("arguments[0].click()",btn3);
+			
+			WebElement btn4 = driver.findElement(By.id("toggler"));
+			Thread.sleep(1000);
+			js.executeScript("arguments[0].removeAttribute('disabled');", btn4);
+			js.executeScript("arguments[0].click()",btn4);
+			
+			WebElement ele = driver.findElement(By.xpath("//button[text()='Place Order']"));
+			ele.click();
+			
+			String text = driver.findElement(By.cssSelector("[class='text-center pt-3 text-lg']")).getText();
+			if(text.contains("Your Order has been successfully placed!")) {
+				System.out.println("order is verified");
+			}		
+		}			
+	}
+
+//TASK_2 DemoAppQSSliderPage_Task2
+package FinalAssessment;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class DemoAppQSSliderPage_Task2 {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+
+        driver.manage().window().maximize();
+
+        driver.get("https://demoapps.qspiders.com/ui/slider?sublist=0");
+
+        Thread.sleep(2000);
+
+        // Locate slider
+        WebElement slider =
+                driver.findElement(By.xpath("//input[@type='range']"));
+
+        // Create Actions object
+        Actions action = new Actions(driver);
+
+        // Move slider to the right
+        action.dragAndDropBy(slider, 200, 0).perform();
+
+        Thread.sleep(2000);
+
+        System.out.println("Slider moved successfully");
+        
+        //Verify Men Cotton Jacket
+        String product = driver.findElement(By.xpath("(//h3[@class='text-sm font-bold pb-1'])[3]")).getText();
+        System.out.println(product);
+
+        if (product.equals("Mens Cotton Jacket...")) {
+            System.out.println("Mens Cotton Jacket is displayed");
+        } else {
+            System.out.println("Mens Cotton Jacket is not displayed");
+        }
+        driver.quit();
+    }
+}
+
+//TASK_3 DemoAppQSDragandDrop_Task3
+package FinalAssessment;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.interactions.Actions;
+
+public class DemoAppQSDragandDrop_Task3 {
+
+    public static void main(String[] args) throws InterruptedException {
+
+        WebDriver driver = new ChromeDriver();
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(20));
+        driver.get("https://demoapps.qspiders.com/ui/dragDrop/dragToMultiple?sublist=3");
+
+        WebElement ele1 = driver.findElement(By.id("dragElement1"));
+        WebElement ele2 = driver.findElement(By.id("dragElement2"));
+        WebElement ele3 = driver.findElement(By.id("dragElement3"));
+        WebElement ele4 = driver.findElement(By.id("dragElement4"));
+
+        WebElement locator1 =driver.findElement(By.id("dropZone1"));
+        WebElement locator2 =driver.findElement(By.id("dropZone2"));
+
+        Actions act = new Actions(driver);
+        act.click(ele1).perform();
+        act.click(ele3).perform();
+        act.clickAndHold(ele1).moveToElement(locator2).release().perform();
+        act.clickAndHold(ele3).moveToElement(locator2).release().perform();
+        Thread.sleep(2000);
+
+        act.click(ele2).perform();
+        act.click(ele4).perform();
+        act.clickAndHold(ele2).moveToElement(locator1).release().perform();
+        act.clickAndHold(ele4).moveToElement(locator1).release().perform();
+        Thread.sleep(2000);
+    }
+}
+
+//TASK_4 ShopperStackAppl_Task4
+package FinalAssessment;
+
+import java.time.Duration;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.edge.EdgeDriver;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
+
+public class ShopperStackAppl_Task4 {
+    public static void main(String[] args) throws InterruptedException {
+        WebDriver driver = new EdgeDriver();
+        driver.manage().window().maximize();
+        driver.get("https://www.shoppersstack.com/products_page/51");
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(30));
+
+        // Enter pincode
+        WebElement pincode = wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//form[contains(@class,'pinForm')]//input")));
+        pincode.sendKeys("635810");
+
+        // Click Check button
+        WebElement ref = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//form[contains(@class,'pinForm')]//button")));
+        ref.click();
+        System.out.println("Product pincode availability checked");
+
+        driver.quit();
+    }
+}
